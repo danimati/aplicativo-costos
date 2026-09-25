@@ -1,0 +1,68 @@
+<section class="month-section">
+  <div class="section-line">
+    <div>
+      <p class="eyebrow">CONTROL DE TIEMPO</p>
+      <h2>Calendario de proyectos</h2>
+    </div>
+    <div class="month-controls">
+      <button class="outline-button" (click)="prevMonth()">‹</button>
+      <strong>{{ monthLabel() }}</strong>
+      <button class="outline-button" (click)="nextMonth()">›</button>
+    </div>
+  </div>
+
+  <div class="month-grid">
+    <div class="weekday-header">
+      <span>DOM</span><span>LUN</span><span>MAR</span><span>MIÉ</span><span>JUE</span
+    ><span>VIE</span><span>SÁB</span>
+    </div>
+
+    @for (week of weeks(); track $index; let wi = $index) {
+      <div class="week-row">
+        @for (cell of week; track cell.iso; let di = $index) {
+          <div
+            class="day-cell"
+            [style.grid-column]="di + 1"
+            [class.is-other-month]="!cell.inMonth"
+            [class.is-today]="cell.isToday"
+          >
+            <span class="day-number">{{ cell.day }}</span>
+          </div>
+        }
+
+        @for (seg of segmentsFor(wi); track seg.id) {
+          <button
+            type="button"
+            class="bar-segment"
+            [class]="'accent-' + seg.accent"
+            [class.continues-before]="seg.continuesBefore"
+            [class.continues-after]="seg.continuesAfter"
+            [style.grid-column]="seg.startCol + 1 + ' / ' + (seg.endCol + 2)"
+            [style.grid-row]="seg.lane + 2"
+            (click)="projectSelected.emit(seg.projectId)"
+          >
+            {{ seg.projectName }}
+          </button>
+        }
+
+        @if (overflowFor(wi); as overflow) {
+          <span class="lane-overflow" [style.grid-row]="MAX_LANES + 2"
+          >+{{ overflow }} más</span
+          >
+        }
+
+        @for (note of notesFor(wi); track note.id) {
+          <button
+            type="button"
+            class="note-chip"
+            [style.grid-column]="note.col + 1"
+            [style.grid-row]="MAX_LANES + 3"
+            (click)="openNote(note)"
+          >
+            {{ note.preview }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+</section>

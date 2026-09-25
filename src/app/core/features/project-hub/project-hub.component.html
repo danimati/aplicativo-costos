@@ -12,15 +12,19 @@
   </div>
 
   <div class="hub-summary">
-    <div><span class="folio-label">PROYECTOS ACTIVOS</span><strong>03</strong><small>1 en cierre · 1 pausado</small></div>
-    <div><span class="folio-label">HORAS REGISTRADAS</span><strong>1,284 h</strong><small>+84 h esta semana</small></div>
-    <div><span class="folio-label">COSTO COMPROMETIDO</span><strong>$ 86,420</strong><small>MXN / portafolio</small></div>
+    <div><span class="folio-label">PROYECTOS ACTIVOS</span><strong>03</strong><small>1 en cierre · 1 pausado</small>
+    </div>
+    <div><span class="folio-label">HORAS REGISTRADAS</span><strong>1,284 h</strong><small>+84 h esta semana</small>
+    </div>
+    <div><span class="folio-label">COSTO COMPROMETIDO</span><strong>$ 86,420</strong><small>MXN / portafolio</small>
+    </div>
     <div><span class="folio-label">PRÓXIMO CORTE</span><strong>22 SEP</strong><small>PRY-2024-089</small></div>
   </div>
 
   <section class="project-section">
     <div class="section-line">
-      <div><p class="eyebrow">VISTA DE PORTAFOLIO</p><h2>Proyectos</h2></div>
+      <div><p class="eyebrow">VISTA DE PORTAFOLIO</p>
+        <h2>Proyectos</h2></div>
       <span class="folio-label">GRID / 04 EXPEDIENTES</span>
     </div>
 
@@ -41,7 +45,7 @@
             </div>
             <div class="project-card-footer">
               <span><span class="avatar project-avatar">{{ p.owner }}</span> Responsable</span>
-              <span class="mono">CORTE {{ p.cutDate }}</span>
+              <button class="outline-button small" (click)="addNoteToProject(p, $event)">+ NOTA</button>
             </div>
           </article>
         }
@@ -53,30 +57,6 @@
     }
   </section>
 
-  @if (calendar(); as events) {
-    <section class="calendar-section">
-      <div class="section-line">
-        <div><p class="eyebrow">CONTROL DE TIEMPO</p><h2>Calendario de proyectos</h2></div>
-        <div class="calendar-controls">
-          <button class="outline-button">‹</button><strong>SEPTIEMBRE 2026</strong><button class="outline-button">›</button>
-        </div>
-      </div>
-      <div class="calendar-wrap">
-        <div class="calendar-week"><span>LUN</span><span>MAR</span><span>MIÉ</span><span>JUE</span><span>VIE</span><span>SÁB</span><span>DOM</span></div>
-        <div class="calendar-days">
-          @for (day of days; track day) {
-            <div class="calendar-day" [class.has-event]="eventFor(day, events)">
-              <span>{{ day }}</span>
-              @if (eventFor(day, events); as ev) {
-                <div>
-                  <b>{{ ev.title }}</b>
-                  <small>{{ ev.project }}</small>
-                </div>
-              }
-            </div>
-          }
-        </div>
-      </div>
-    </section>
-  }
+  <app-month-calendar [projects]="projects()" (projectSelected)="openProjectById($event)" />
+  <app-notes-modal />
 </div>

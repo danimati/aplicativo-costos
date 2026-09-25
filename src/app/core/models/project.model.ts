@@ -17,6 +17,8 @@ export interface Project {
   progress: string;
   family: string;
   owner: string;
+  startDate: string; // ISO 'YYYY-MM-DD'
+  endDate: string; // ISO 'YYYY-MM-DD'
   stages?: ProjectStage[];
   navTemplate?: NavCycle[]; // los ciclos
 }

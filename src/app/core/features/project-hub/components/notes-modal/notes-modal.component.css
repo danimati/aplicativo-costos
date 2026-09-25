@@ -1,0 +1,47 @@
+.notion-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.5);
+  display: grid; place-items: center;
+  animation: fadeIn .15s ease;
+}
+.notion-modal {
+  width: 90vw; max-width: 800px; height: 80vh;
+  background: var(--paper); border: 1px solid var(--foreground);
+  box-shadow: 8px 8px 0 var(--copper);
+  display: flex; flex-direction: column;
+}
+.notion-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px; border-bottom: 1px solid var(--line); background: var(--low);
+}
+.notion-header h2 { font-size: 24px; margin: 0; }
+.notion-close { border: 1px solid var(--line); background: #fff; width: 30px; height: 30px; cursor: pointer; }
+
+.notion-editor-grid { display: grid; grid-template-columns: 1fr 1fr; flex: 1; overflow: hidden; }
+.editor-pane, .preview-pane { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.editor-pane { border-right: 1px solid var(--line); }
+
+.notion-textarea {
+  flex: 1; width: 100%; resize: none; border: 1px solid var(--line);
+  background: var(--low); font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 15px;
+  line-height: 1.5; outline: none;
+}
+.notion-textarea:focus { outline: 2px solid var(--copper); }
+
+.preview-content { flex: 1; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+.preview-content h1, .preview-content h2, .preview-content h3 { margin: 10px 0; font-family: 'Newsreader', serif; }
+.preview-content ul { padding-left: 20px; }
+.empty-preview { color: var(--muted); font-style: italic; }
+
+.notion-footer {
+  display: flex; justify-content: flex-end; gap: 10px;
+  padding: 15px; border-top: 1px solid var(--line); background: var(--low);
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.date-input {
+  border: 1px solid var(--line); background: var(--low);
+  font: 600 20px 'Newsreader', serif; padding: 2px 6px; margin-left: 6px;
+}
+.md-check { display: flex; align-items: center; gap: 6px; list-style: none; }

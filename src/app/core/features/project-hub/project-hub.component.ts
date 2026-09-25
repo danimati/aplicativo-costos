@@ -4,17 +4,25 @@ import { ProjectService } from '../../services/project.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CalendarEvent, Project } from '../../models/project.model';
 import { StampComponent } from '../../shared/stamp/stamp.component';
+import { ProjectNotesService } from '../../services/project-notes.service';
+import { NotesModalComponent } from './components/notes-modal/notes-modal.component';
+import { MonthCalendarComponent } from './components/month-calendar/month-calendar.component';
 
 @Component({
   selector: 'app-project-hub',
-  imports: [StampComponent],
+  imports: [
+    StampComponent,
+    NotesModalComponent,
+    MonthCalendarComponent,
+  ],
   templateUrl: './project-hub.component.html',
   styleUrl: './project-hub.component.css',
 })
 export class ProjectHubComponent {
-  // 1. Inyección moderna
+  //Inyección
   private projectService = inject(ProjectService);
   private router = inject(Router);
+  public notesSvc = inject(ProjectNotesService);
 
   projects = toSignal(this.projectService.getProjects(), { initialValue: [] as Project[] });
   calendar = toSignal(this.projectService.getCalendarEvents(), {
@@ -31,5 +39,16 @@ export class ProjectHubComponent {
 
   eventFor(day: string, events: CalendarEvent[]): CalendarEvent | undefined {
     return events.find((e) => e.day === day);
+  }
+
+  addNoteToProject(p: Project, ev: Event) {
+    ev.stopPropagation(); // que no dispare openProject(p)
+    const today = new Date().toISOString().slice(0, 10);
+    this.notesSvc.openNoteModal(today, p.id);
+  }
+
+  openProjectById(id: string) {
+    const p = this.projects().find((pr) => pr.id === id);
+    if (p) this.openProject(p);
   }
 }

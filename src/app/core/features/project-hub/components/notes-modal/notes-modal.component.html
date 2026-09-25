@@ -1,0 +1,38 @@
+@if (state.isModalOpen()) {
+  <div class="notion-overlay" (click)="state.closeNoteModal()">
+    <div class="notion-modal" (click)="$event.stopPropagation()">
+      <div class="notion-header">
+        <div>
+          <span class="folio-label">PROYECTO: {{ state.activeProjectId() }}</span>
+          <h2>
+            Nota del
+            <input type="date" class="date-input" [value]="state.activeDate()"
+                   (change)="state.updateActiveDate($any($event.target).value)" />
+          </h2>
+        </div>
+        <button class="notion-close" (click)="state.closeNoteModal()">✕</button>
+      </div>
+
+      <div class="notion-editor-grid">
+        <div class="editor-pane">
+          <label class="folio-label">EDITOR (MARKDOWN)</label>
+          <textarea
+            class="notion-textarea"
+            [value]="state.activeContent()"
+            (input)="state.updateContent($any($event.target).value)"
+            placeholder="# Título&#10;- lista&#10;- [ ] pendiente&#10;**negrita**"
+          ></textarea>
+        </div>
+        <div class="preview-pane">
+          <label class="folio-label">VISTA PREVIA</label>
+          <div class="preview-content" [innerHTML]="formatMarkdown(state.activeContent())"></div>
+        </div>
+      </div>
+
+      <div class="notion-footer">
+        <button class="outline-button" (click)="state.deleteActiveNote()">ELIMINAR</button>
+        <button class="black-button" (click)="state.saveNote()">GUARDAR NOTA →</button>
+      </div>
+    </div>
+  </div>
+}

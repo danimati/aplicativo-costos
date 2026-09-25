@@ -1,0 +1,70 @@
+/* src/app/shared/month-calendar/month-calendar.component.css */
+.month-section { margin-bottom: 38px; }
+.section-line { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; }
+.section-line h2 { font-size: 28px; font-family: 'Newsreader', serif; text-transform: capitalize; }
+.month-controls { display: flex; align-items: center; gap: 9px; }
+.month-controls strong { font: 600 10px 'JetBrains Mono'; letter-spacing: .08em; text-transform: uppercase; }
+
+.month-grid { border: 1px solid var(--line); background: var(--paper); }
+
+.weekday-header {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  background: #000; color: #fff;
+}
+.weekday-header span {
+  padding: 9px 10px; font: 600 9px 'JetBrains Mono'; letter-spacing: .1em;
+  border-right: 1px solid #333; text-align: center;
+}
+.weekday-header span:last-child { border-right: 0; }
+
+.week-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 26px repeat(3, 22px) auto;
+  border-top: 1px solid var(--line);
+}
+
+.day-cell {
+  grid-row: 1;
+  border-right: 1px solid var(--line);
+  padding: 6px 8px 0;
+}
+.day-cell:nth-child(7n) { border-right: 0; }
+.day-number { font: 600 11px 'JetBrains Mono'; color: var(--muted); }
+.day-cell.is-other-month .day-number { opacity: .35; }
+.day-cell.is-today .day-number {
+  color: #fff; background: var(--copper);
+  padding: 1px 6px; display: inline-block;
+}
+
+.bar-segment {
+  margin: 1px 2px 0;
+  padding: 0 8px;
+  border: none; border-top: 1px solid var(--foreground); border-bottom: 1px solid var(--foreground);
+  background: var(--kraft);
+  font: 600 9px 'JetBrains Mono';
+  text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
+}
+.bar-segment.continues-before { border-left: none; margin-left: 0; }
+.bar-segment.continues-after { border-right: none; margin-right: 0; }
+.bar-segment:not(.continues-before) { border-left: 3px solid currentColor; }
+
+.accent-0 { color: var(--copper); }
+.accent-1 { color: #6B7D5A; }
+.accent-2 { color: #4A5568; }
+
+.lane-overflow {
+  grid-column: 1 / -1;
+  font: 600 9px 'JetBrains Mono'; color: var(--muted);
+  padding: 2px 8px;
+}
+
+.note-chip {
+  margin: 2px 4px 6px; padding: 4px 6px;
+  border: 1px solid var(--line); background: var(--low);
+  font: 500 10px 'JetBrains Mono'; color: var(--foreground);
+  text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
+}

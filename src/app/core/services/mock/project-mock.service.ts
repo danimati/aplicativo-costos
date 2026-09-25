@@ -42,62 +42,57 @@ const MOCK_STAGES: ProjectStage[] = [
 // ─────────────────────────────────────────────
 // PROJECTS
 // ─────────────────────────────────────────────
-
 const MOCK_PROJECTS: Project[] = [
   {
     id: 'PRY-2024-089',
     name: 'Tablero Línea Extrusión 04',
     status: 'EN EJECUCIÓN',
+    startDate: '2026-07-15',
+    endDate: '2026-09-22',
     cutDate: '22 SEP 2026',
     progress: '68%',
     family: 'CONTROL EXTRUSIÓN',
     owner: 'AM',
-
     stages: MOCK_STAGES,
-
-    // Navegación específica de este proyecto
     navTemplate: INDUSTRIAL_NAV_TEMPLATE,
   },
-
   {
     id: 'PRY-2024-076',
     name: 'Celda de ensamble neumático',
     status: 'EN CIERRE',
+    startDate: '2026-08-02',
+    endDate: '2026-09-14',
     cutDate: '14 SEP 2026',
     progress: '92%',
     family: 'AUTOMATIZACIÓN',
     owner: 'JC',
-
-    // Este proyecto utiliza la misma plantilla
-    // de navegación industrial.
     navTemplate: INDUSTRIAL_NAV_TEMPLATE,
   },
-
   {
     id: 'PRY-2024-061',
     name: 'Retrofit transportador norte',
     status: 'PAUSADO',
+    startDate: '2026-07-10',
+    endDate: '2026-08-29',
     cutDate: '29 AGO 2026',
     progress: '41%',
     family: 'TRANSPORTE',
     owner: 'LM',
-
     navTemplate: INDUSTRIAL_NAV_TEMPLATE,
   },
-
   {
     id: 'PRY-2024-044',
     name: 'Tablero de fuerza Planta B',
     status: 'FINALIZADO',
+    startDate: '2026-06-02',
+    endDate: '2026-07-18',
     cutDate: '18 JUL 2026',
     progress: '100%',
     family: 'ENERGÍA',
     owner: 'AM',
-
     navTemplate: INDUSTRIAL_NAV_TEMPLATE,
   },
 ];
-
 
 // ─────────────────────────────────────────────
 // CALENDAR
