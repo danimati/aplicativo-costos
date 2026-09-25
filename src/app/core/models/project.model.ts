@@ -23,6 +23,18 @@ export interface Project {
   navTemplate?: NavCycle[]; // los ciclos
 }
 
+export interface ProjectDocument {
+  id: string;
+  projectId: string;
+  title: string;
+  kind: 'markdown' | 'file';
+  content: string; // Markdown, solo cuando kind === 'markdown'
+  fileName?: string; // solo cuando kind === 'file'
+  fileUrl?: string; // solo cuando kind === 'file'
+  mimeType?: string; // solo cuando kind === 'file'
+  updatedAt: string; // ISO
+}
+
 export interface CalendarEvent {
   day: string;
   title: string;

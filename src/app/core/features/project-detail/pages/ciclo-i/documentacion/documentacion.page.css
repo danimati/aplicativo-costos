@@ -1,0 +1,111 @@
+/* project-document.page.css */
+.docs-page {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 70vh;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.docs-sidebar {
+  border-right: 1px solid var(--line);
+  background: var(--low);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.docs-sidebar-block { display: flex; flex-direction: column; }
+.docs-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  gap: 8px;
+}
+.docs-sidebar-actions { display: flex; gap: 6px; }
+.file-upload-label { cursor: pointer; }
+
+.docs-list { list-style: none; margin: 0; padding: 8px; }
+.docs-list-item {
+  display: flex; align-items: center; gap: 8px; padding: 10px;
+  cursor: pointer; position: relative;
+}
+.docs-list-item:hover { background: rgba(0, 0, 0, 0.04); }
+.docs-list-item.is-active { background: var(--kraft); }
+.docs-file-tag {
+  font: 700 8px 'JetBrains Mono'; letter-spacing: .04em;
+  background: var(--foreground); color: #fff; padding: 2px 5px; flex-shrink: 0;
+}
+.docs-list-title {
+  flex: 1; font: 500 13px 'Newsreader', serif;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.docs-list-date { font: 500 9px 'JetBrains Mono'; color: var(--muted); }
+.docs-list-delete { border: none; background: transparent; opacity: 0; cursor: pointer; color: var(--muted); font-size: 12px; }
+.docs-list-item:hover .docs-list-delete { opacity: 1; }
+.docs-list-empty { padding: 20px 10px; font-size: 12px; color: var(--muted); font-style: italic; list-style: none; }
+
+/* Notas: mismo lenguaje post-it del calendario, para que nunca se confundan con documentos */
+.notes-block { border-top: 3px solid var(--line); }
+.notes-list { list-style: none; margin: 0; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.note-chip-sidebar {
+  background: #FDF3C7; border: 1px solid #E8D48B;
+  box-shadow: 2px 3px 0 rgba(0,0,0,.08);
+  transform: rotate(-1deg);
+  padding: 8px 10px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 2px;
+  transition: transform .1s ease;
+}
+.note-chip-sidebar:hover { transform: rotate(0deg); }
+.note-chip-date { font: 700 9px 'JetBrains Mono'; color: #6B5B12; }
+.note-chip-preview {
+  font: 500 11px 'JetBrains Mono'; color: #6B5B12;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.docs-main { display: flex; flex-direction: column; min-width: 0; }
+.docs-toolbar {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 20px 32px; border-bottom: 1px solid var(--line);
+}
+.docs-title-input {
+  border: none; background: transparent; font: 600 26px 'Newsreader', serif;
+  width: 100%; max-width: 760px; outline: none;
+}
+.docs-toolbar-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* Centrado real del contenido, en vez de pegado al borde izquierdo */
+.docs-editor {
+  flex: 1; width: 100%; max-width: 760px; margin: 0 auto;
+  border: none; resize: none; outline: none;
+  padding: 32px 0; font: 14px/1.7 'JetBrains Mono'; background: var(--paper);
+}
+.docs-preview {
+  flex: 1; overflow-y: auto; width: 100%; max-width: 760px; margin: 0 auto;
+  padding: 32px 0; font: 15px/1.75 'Newsreader', serif;
+}
+.docs-preview h1, .docs-preview h2, .docs-preview h3 { font-family: 'Newsreader', serif; margin: 24px 0 10px; }
+.docs-preview p { margin: 0 0 14px; }
+.docs-preview ul, .docs-preview ol { padding-left: 22px; margin-bottom: 14px; }
+.docs-preview code { background: var(--low); padding: 1px 5px; font-family: 'JetBrains Mono'; font-size: 13px; }
+.docs-preview pre { background: #0B0B0B; color: #eee; padding: 14px; overflow-x: auto; }
+.docs-preview blockquote { border-left: 3px solid var(--copper); padding-left: 14px; color: var(--muted); margin: 0 0 14px; }
+.docs-preview table { border-collapse: collapse; margin-bottom: 14px; }
+.docs-preview th, .docs-preview td { border: 1px solid var(--line); padding: 6px 10px; font-size: 13px; }
+
+/* Tarjeta de descarga para Word/Excel */
+.docs-file-preview { flex: 1; display: grid; place-items: center; padding: 40px; }
+.docs-file-card {
+  border: 1px solid var(--line); background: var(--low);
+  padding: 40px; text-align: center; max-width: 380px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.docs-file-card-tag {
+  font: 700 10px 'JetBrains Mono'; letter-spacing: .06em;
+  background: var(--foreground); color: #fff; padding: 3px 10px;
+}
+.docs-file-card h2 { font: 600 18px 'Newsreader', serif; margin: 4px 0; word-break: break-word; }
+.docs-file-card p { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+
+.docs-empty-state { flex: 1; display: grid; place-items: center; color: var(--muted); font-style: italic; }

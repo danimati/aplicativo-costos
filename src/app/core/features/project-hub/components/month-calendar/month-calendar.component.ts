@@ -1,6 +1,6 @@
 import { Component, input, inject, signal, computed, output } from '@angular/core';
-import { ProjectNotesService } from '../../../../services/project-notes.service';
 import { Project } from '../../../../models/project.model';
+import { ProjectNotesService } from '../../../../services/ui/project-notes.service';
 
 
 interface DayCell {

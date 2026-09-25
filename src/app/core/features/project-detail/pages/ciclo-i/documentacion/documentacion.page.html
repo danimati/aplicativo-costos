@@ -1,0 +1,102 @@
+<!-- project-document.page.html -->
+<div class="docs-page">
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-block">
+      <div class="docs-sidebar-header">
+        <span class="folio-label">DOCUMENTOS</span>
+        <div class="docs-sidebar-actions">
+          <button class="black-button small" (click)="newDocument()">+ Nuevo</button>
+          <label class="outline-button small file-upload-label">
+            Subir
+            <input type="file" accept=".doc,.docx,.xls,.xlsx" (change)="onFileSelected($event)" hidden />
+          </label>
+        </div>
+      </div>
+
+      <ul class="docs-list">
+        @for (doc of documents(); track doc.id) {
+          <li
+            class="docs-list-item"
+            [class.is-active]="doc.id === selectedId()"
+            (click)="selectDocument(doc.id)"
+          >
+            @if (doc.kind === 'file') {
+              <span class="docs-file-tag">{{ fileLabel(doc.mimeType) }}</span>
+            }
+            <span class="docs-list-title">{{ doc.title || 'Sin título' }}</span>
+            <span class="docs-list-date">{{ doc.updatedAt | date: 'd MMM' }}</span>
+            <button class="docs-list-delete" (click)="remove(doc.id, $event)" aria-label="Eliminar documento">✕</button>
+          </li>
+        } @empty {
+          <li class="docs-list-empty">Aún no hay documentos para este proyecto.</li>
+        }
+      </ul>
+    </div>
+
+    <!-- Notas: separado visualmente de Documentos, no es lo mismo -->
+    <div class="docs-sidebar-block notes-block">
+      <div class="docs-sidebar-header">
+        <span class="folio-label">NOTAS</span>
+        <button class="outline-button small" (click)="addQuickNote()">+ Nota</button>
+      </div>
+
+      <ul class="notes-list">
+        @for (note of projectNotes(); track note.id) {
+          <li class="note-chip-sidebar" (click)="openNote(note.date)">
+            <span class="note-chip-date">{{ note.date | date: 'd MMM' }}</span>
+            <span class="note-chip-preview">{{ note.content.slice(0, 40) }}</span>
+          </li>
+        } @empty {
+          <li class="docs-list-empty">Sin notas para este proyecto.</li>
+        }
+      </ul>
+    </div>
+  </aside>
+
+  <main class="docs-main">
+    @if (isFileDocument()) {
+      <div class="docs-file-preview">
+        <div class="docs-file-card">
+          <span class="docs-file-card-tag">{{ fileLabel(selectedDocument()?.mimeType) }}</span>
+          <h2>{{ selectedDocument()?.fileName }}</h2>
+          <p>Este tipo de archivo no se puede previsualizar aquí. Descárgalo para abrirlo.</p>
+          <a class="black-button" [href]="selectedDocument()?.fileUrl" [download]="selectedDocument()?.fileName">
+            DESCARGAR →
+          </a>
+        </div>
+      </div>
+    } @else if (selectedId() !== null || draftTitle() || draftContent()) {
+      <div class="docs-toolbar">
+        <input
+          class="docs-title-input"
+          [value]="draftTitle()"
+          (input)="updateTitle($any($event.target).value)"
+          placeholder="Título del documento"
+        />
+        <div class="docs-toolbar-actions">
+          <button class="outline-button" (click)="isPreview.set(!isPreview())">
+            {{ isPreview() ? 'EDITAR' : 'VISTA PREVIA' }}
+          </button>
+          <button class="black-button" (click)="save()">GUARDAR</button>
+        </div>
+      </div>
+
+      @if (isPreview()) {
+        <div class="docs-preview" [innerHTML]="draftContent() | markdown"></div>
+      } @else {
+        <textarea
+          class="docs-editor"
+          [value]="draftContent()"
+          (input)="updateContent($any($event.target).value)"
+          placeholder="Escribe en Markdown…"
+        ></textarea>
+      }
+    } @else {
+      <div class="docs-empty-state">
+        <p>Selecciona un documento de la izquierda o crea uno nuevo.</p>
+      </div>
+    }
+  </main>
+</div>
+
+<app-notes-modal />

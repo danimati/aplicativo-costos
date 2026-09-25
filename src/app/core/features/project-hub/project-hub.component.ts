@@ -4,9 +4,10 @@ import { ProjectService } from '../../services/project.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CalendarEvent, Project } from '../../models/project.model';
 import { StampComponent } from '../../shared/stamp/stamp.component';
-import { ProjectNotesService } from '../../services/project-notes.service';
 import { NotesModalComponent } from './components/notes-modal/notes-modal.component';
 import { MonthCalendarComponent } from './components/month-calendar/month-calendar.component';
+import { ProjectNoteService } from '../../services/project-notes.service';
+import { ProjectNotesService } from '../../services/ui/project-notes.service';
 
 @Component({
   selector: 'app-project-hub',
@@ -33,7 +34,7 @@ export class ProjectHubComponent {
 
   openProject(project: Project): void {
     if (project.id === 'PRY-2024-089') {
-      this.router.navigate(['/proyectos', project.id]);
+      this.router.navigate(['/app/proyectos', project.id]);
     }
   }
 

@@ -47,7 +47,7 @@ export class TopNavComponent {
       return;
     }
 
-    this.router.navigate(['proyectos', projectId, route]);
+    this.router.navigate(['app/proyectos', projectId, route]);
   }
 
   private getProjectId(): string {

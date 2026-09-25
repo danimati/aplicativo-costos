@@ -4,7 +4,6 @@ import { ShellComponent } from './core/features/shell/shell.component';
 import { ProjectHubComponent } from './core/features/project-hub/project-hub.component';
 import { ProjectDetailComponent } from './core/features/project-detail/project-detail.component';
 
-import { FoliosPage } from './core/features/project-detail/pages/ciclo-i/folios/folios.page';
 import { BomPage } from './core/features/project-detail/pages/ciclo-i/bom/bom.page';
 import { ManoObraPage } from './core/features/project-detail/pages/ciclo-i/mano-obra/mano-obra.page';
 import { PlantillasPage } from './core/features/project-detail/pages/ciclo-i/plantillas/plantillas.page';
@@ -19,8 +18,6 @@ import { CableadoPage } from './core/features/project-detail/pages/ciclo-iii/cab
 import { ProgramacionPage } from './core/features/project-detail/pages/ciclo-iii/programacion/programacion.page';
 import { PruebasPage } from './core/features/project-detail/pages/ciclo-iii/pruebas/pruebas.page';
 
-
-
 import { DatosPage } from './core/features/project-detail/pages/configuracion/datos/datos.page';
 import { UsuariosPage } from './core/features/project-detail/pages/configuracion/usuarios/usuarios.page';
 import { PermisosPage } from './core/features/project-detail/pages/configuracion/permisos/permisos.page';
@@ -28,13 +25,15 @@ import { AvancePage } from './core/features/project-detail/pages/reportes/avance
 import { CostosPage } from './core/features/project-detail/pages/reportes/costos/costos.page';
 import { HorasPage } from './core/features/project-detail/pages/reportes/horas/horas.page';
 import { IndicadoresPage } from './core/features/project-detail/pages/reportes/indicadores/indicadores.page';
+import { DocumentacionPage } from './core/features/project-detail/pages/ciclo-i/documentacion/documentacion.page';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   {
-    path: '',
+    path: 'app',
     component: ShellComponent,
     children: [
+      { path: '', redirectTo: 'proyectos', pathMatch: 'full' },
       {
         path: 'proyectos',
         component: ProjectHubComponent,
@@ -46,9 +45,9 @@ export const routes: Routes = [
         data: { isRoot: false, title: 'EXPEDIENTE ACTIVO' },
         children: [
           {
-            path: 'folios',
-            component: FoliosPage,
-            data: { title: 'FOLIOS & PROYECTOS', cycle: 'CICLO I', leaf: '01' },
+            path: 'documentacion',
+            component: DocumentacionPage,
+            data: { title: 'NOTAS & DOCUMENTACIÓN', cycle: 'CICLO I', leaf: '01' },
           },
           {
             path: 'bom',
@@ -145,7 +144,7 @@ export const routes: Routes = [
             data: { title: 'PERMISOS', cycle: 'CONFIGURACIÓN', leaf: '19' },
           },
 
-          { path: '', pathMatch: 'full', redirectTo: 'folios' },
+          { path: '', pathMatch: 'full', redirectTo: 'documentacion' }, // ← antes apuntaba a 'folios', que no existe
         ],
       },
     ],

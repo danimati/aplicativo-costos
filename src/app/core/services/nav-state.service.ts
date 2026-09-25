@@ -65,7 +65,7 @@ export class NavStateService {
     console.log('DATOS DE NAVEGACIÓN:', { leafId, routePath, projectId });
 
     if (projectId && routePath) {
-      this.router.navigate(['/proyectos', projectId, routePath]);
+      this.router.navigate(['/app/proyectos', projectId, routePath]);
     }
   }
 

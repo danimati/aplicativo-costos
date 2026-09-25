@@ -24,6 +24,6 @@ export class LoginComponent {
   onSubmit(): void {
     this.error.set(false);
     this.auth.login();
-    this.router.navigateByUrl('/proyectos');
+    this.router.navigateByUrl('/app/proyectos');
   }
 }

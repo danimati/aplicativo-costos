@@ -5,7 +5,7 @@ export const INDUSTRIAL_NAV_TEMPLATE: NavCycle[] = [
     id: 'CICLO I',
     label: 'INGENIERÍA & ESTIMACIÓN',
     leaves: [
-      { id: '01', label: 'FOLIOS & PROYECTOS', route: 'folios' },
+      { id: '01', label: 'NOTAS & DOCUMENTACIÓN', route: 'documentacion' },
       { id: '02', label: 'LISTA DE MATERIALES / BOM', route: 'bom' },
       { id: '03', label: 'MANO DE OBRA & ETAPAS', route: 'mano-obra' },
       { id: '04', label: 'PLANTILLAS BASE', route: 'plantillas' },
