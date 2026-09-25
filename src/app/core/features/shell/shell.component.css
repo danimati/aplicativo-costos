@@ -1,0 +1,25 @@
+.mock-notice {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(380px, calc(100vw - 32px));
+  padding: 13px 16px;
+  border: 1px solid #000;
+  background: #fff;
+  box-shadow: 5px 5px 0 var(--copper);
+  color: #1B1C19;
+  font: 10px 'JetBrains Mono';
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.mock-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  background: var(--copper);
+}

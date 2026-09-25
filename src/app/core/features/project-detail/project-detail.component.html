@@ -1,0 +1,9 @@
+@for (leaf of navState.currentLeaves(); track leaf.id) {
+  <button
+    class="leaf-link"
+    [class.active]="navState.activeLeaf() === leaf.id"
+    (click)="navState.navigateLeaf(leaf.id, leaf.route)"
+    >
+  {{ leaf.id }}. {{ leaf.label }}
+  </button>
+}

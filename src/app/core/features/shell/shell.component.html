@@ -1,0 +1,41 @@
+<div class="app-shell">
+
+  <app-top-nav [isRoot]="isRoot()" />
+
+  <div class="app-content">
+    <router-outlet></router-outlet>
+  </div>
+  <!-- NOTIFICACIONES -->
+  <app-slide-panel
+    [isOpen]="uiState.isNotificationsOpen()"
+    title="NOTIFICACIONES"
+    (close)="uiState.closeNotifications()">
+    @if (notifications().length === 0) {
+      <p>No hay notificaciones.</p>
+    } @else {
+      @for (notification of notifications();
+        track notification.id) {
+        <div
+          class="notification-item"
+          [class.unread]="!notification.read"
+          (click)="markAsRead(notification)"
+        >
+          <small>{{ notification.date }}</small>
+          <p>{{ notification.message }}</p>
+          @if (notification.projectId) {
+            <span>{{ notification.projectId }}</span>
+          }
+        </div>
+      }
+      <button type="button" (click)="markAllAsRead()">MARCAR TODAS COMO LEÍDAS</button>
+    }
+  </app-slide-panel>
+  <!-- CONFIGURACIÓN -->
+  <app-slide-panel
+    [isOpen]="uiState.isSettingsOpen()"
+    title="CONFIGURACIÓN"
+    (close)="uiState.closeSettings()">
+    <p>Aquí iremos agregando los ajustes del sistema...</p>
+  </app-slide-panel>
+
+</div>

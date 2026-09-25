@@ -1,0 +1,421 @@
+/* --- Base Identity Bar --- */
+.identity-bar {
+  min-height: 70px;
+  padding: 12px 3.2vw;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  position: relative; /* Crucial para el menú flotante absoluto */
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 12px 'JetBrains Mono';
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  background: #000;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  font-size: 12px;
+}
+
+.active-project {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border-left: 1px solid var(--line);
+  padding-left: 25px;
+  flex: 1;
+}
+
+.active-project strong, .active-project span:not(.folio-label):not(.stamp) {
+  font: 12px 'JetBrains Mono';
+}
+
+.active-project > span:nth-of-type(2) {
+  color: var(--muted);
+}
+
+/* --- User Actions Area --- */
+.user-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  position: relative; /* El menú se anclará a este contenedor */
+  margin-left: auto;
+}
+
+.icon-btn {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--low);
+  width: 38px;
+  height: 38px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.icon-btn .dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background: var(--copper);
+  border: 1px solid var(--paper);
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.user-btn:hover {
+  border-color: var(--line);
+  background: var(--low);
+}
+
+.user-text {
+  text-align: left;
+}
+
+.user-text strong {
+  display: block;
+  font: 600 12px 'JetBrains Mono';
+}
+
+.user-text span {
+  font: 9px 'JetBrains Mono';
+  color: var(--muted);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  border: 1px solid #000;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%!important;
+  font: 600 10px 'JetBrains Mono';
+}
+
+/* --- User Dropdown Menu --- */
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 15px; /* Separación del header */
+  width: 240px;
+  background: var(--paper);
+  border: 1px solid var(--foreground);
+  box-shadow: 5px 5px 0 var(--copper); /* Sombra cobre estilo "boxy" */
+  z-index: 50;
+  animation: dropdownIn .15s ease forwards;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.user-menu-header {
+  padding: 15px;
+  border-bottom: 1px solid var(--line);
+  background: var(--low);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-menu-header strong {
+  font: 600 14px 'JetBrains Mono';
+}
+
+.user-menu-header small {
+  font: 9px 'JetBrains Mono';
+  color: var(--muted);
+}
+
+.user-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 15px;
+  border: 0;
+  background: transparent;
+  font: 600 10px 'JetBrains Mono';
+  letter-spacing: .08em;
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+}
+
+.user-menu button:last-child {
+  border-bottom: 0;
+  color: var(--error);
+}
+
+.user-menu button:hover {
+  background: var(--container);
+}
+
+/* --- Resto de la navegación (Ciclos y Móvil) --- */
+/* (Deja tu CSS anterior de .root-nav, .leaf-nav, etc. intacto, solo reemplaza la parte del usuario arriba) */
+
+.root-nav {
+  background: #000;
+  color: #fff;
+  overflow: auto;
+}
+
+.root-inner, .leaf-inner {
+  max-width: 1500px;
+  margin: auto;
+  padding: 0 3.2vw;
+  display: flex;
+  align-items: center;
+}
+
+.root-link {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: #C9C9C4;
+  padding: 15px 15px 13px;
+  font-size: 10px;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+.root-link:first-child {
+  padding-left: 0;
+}
+
+.root-link.active {
+  color: #fff;
+  border-bottom-color: var(--copper);
+}
+
+.leaf-nav {
+  border-bottom: 1px solid var(--line);
+  background: var(--container);
+  overflow: auto;
+}
+
+.leaf-inner {
+  gap: 7px;
+  min-height: 51px;
+}
+
+.leaf-link {
+  border: 1px solid var(--line);
+  background: var(--low);
+  padding: 8px 10px;
+  color: #4D4F4E;
+  font-size: 9px;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.leaf-link.active {
+  border-color: #000;
+  background: #fff;
+  color: #000;
+  box-shadow: 2px 2px 0 var(--copper);
+}
+
+.breadcrumb {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.mobile-menu-button, .mobile-breadcrumb, .mobile-index {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .identity-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .active-project {
+    order: 3;
+    flex-basis: 100%;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 10px 0 0;
+  }
+
+  .user-meta {
+    margin-left: auto;
+  }
+
+  .user-meta > span:nth-of-type(2), .user-meta .folio-label {
+    display: none;
+  }
+
+  .breadcrumb {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .brand span:last-child {
+    display: none;
+  }
+
+  .identity-bar {
+    padding: 11px 16px;
+    min-height: 62px;
+  }
+
+  .active-project {
+    gap: 7px;
+    overflow: hidden;
+  }
+
+  .active-project span:nth-of-type(2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .user-meta strong {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: inline-flex;
+    margin-left: auto;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #000;
+    background: #fff;
+    padding: 8px 10px;
+    font: 10px 'JetBrains Mono';
+  }
+
+  .root-nav, .leaf-nav {
+    display: none;
+  }
+
+  .mobile-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font: 9px 'JetBrains Mono';
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+
+  .mobile-index {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: var(--surface);
+    overflow: auto;
+    padding: 20px 18px;
+  }
+
+  .index-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    padding-bottom: 15px;
+    margin-bottom: 12px;
+  }
+
+  .index-header button {
+    border: 0;
+    background: none;
+  }
+
+  .index-cycle {
+    border-bottom: 1px solid var(--line);
+    padding: 13px 0;
+  }
+
+  .index-cycle-title {
+    width: 100%;
+    border: 0;
+    background: none;
+    text-align: left;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font: 600 11px 'JetBrains Mono';
+  }
+
+  .index-cycle-title span {
+    color: var(--muted);
+    font-weight: 400;
+    flex: 1;
+  }
+
+  .index-leaf {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: none;
+    text-align: left;
+    padding: 10px 0 2px 20px;
+    font: 10px 'JetBrains Mono';
+    color: var(--muted);
+  }
+
+  .index-leaf.selected {
+    color: var(--copper);
+  }
+}
+
+
+/*Extra*/
+.user-actions { display: flex; gap: 15px; align-items: center; position: relative; }
+.icon-btn {
+  position: relative; border: 1px solid var(--line); background: var(--low);
+  width: 38px; height: 38px; font-size: 16px; cursor: pointer;
+}
+.icon-btn .dot {
+  position: absolute; top: 8px; right: 8px; width: 8px; height: 8px;
+  background: var(--copper); border: 1px solid var(--paper);
+}
+.user-btn {
+  display: flex; align-items: center; gap: 10px; background: transparent;
+  border: 1px solid transparent; padding: 4px 8px; cursor: pointer;
+}
+.user-btn:hover { border-color: var(--line); background: var(--low); }
+.user-text { text-align: left; }
+.user-text strong { display: block; font: 600 12px 'JetBrains Mono'; }
+.user-text span { font: 9px 'JetBrains Mono'; color: var(--muted); }
+
+.user-dropdown {
+  position: absolute; top: 100%; right: 0; margin-top: 10px; width: 220px;
+  background: var(--paper); border: 1px solid var(--foreground);
+  box-shadow: 4px 4px 0 var(--copper); z-index: 20;
+}
+.user-dropdown button {
+  display: block; width: 100%; text-align: left; padding: 12px 15px;
+  border: 0; background: transparent; font: 600 10px 'JetBrains Mono';
+  letter-spacing: .08em; cursor: pointer; border-bottom: 1px solid var(--line);
+}
+.user-dropdown button:last-child { border-bottom: 0; color: var(--error); }
+.user-dropdown button:hover { background: var(--low); }

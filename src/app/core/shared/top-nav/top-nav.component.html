@@ -1,0 +1,119 @@
+<header class="identity-bar">
+  <div class="brand">
+    <span class="brand-mark">CI</span>
+    <span>COSTOS / INDUSTRIAL</span>
+  </div>
+
+  @if (isRoot()) {
+    <div class="active-project">
+      <span class="folio-label">PORTAFOLIO CORPORATIVO</span>
+      <strong>EXPEDIENTES ACTIVOS</strong>
+      <span>Gestión general de proyectos</span>
+      <app-stamp>ÍNDICE</app-stamp>
+    </div>
+  } @else {
+    <div class="active-project">
+      <span class="folio-label">EXPEDIENTE ACTIVO</span>
+      <strong>{{ routeTitle() }}</strong>
+      <span>Tablero Línea Extrusión 04</span>
+      <app-stamp>ACTIVO</app-stamp>
+    </div>
+  }
+
+  <div class="user-actions">
+    <button class="icon-btn" type="button" (click)="uiState.openNotifications()">
+      ✉ <span class="dot"></span>
+    </button>
+
+    <button class="user-btn" type="button" (click)="uiState.toggleUserMenu()">
+      <span class="avatar">AM</span>
+      <div class="user-text">
+        <strong>Andrea M.</strong>
+        <span>Financiero</span>
+      </div>
+    </button>
+
+    @if (uiState.isUserMenuOpen()) {
+      <div class="user-menu">
+        <div class="user-menu-header">
+          <span class="folio-label">USUARIO ACTIVO</span>
+          <strong>Andrea Morales</strong>
+          <small>Rol: Financiero / ID-000184</small>
+        </div>
+
+        <button type="button" (click)="uiState.closeUserMenu()">MI PERFIL</button>
+        <button type="button" (click)="uiState.openSettings()">CONFIGURACIÓN</button>
+        <button type="button" (click)="auth.logout()">CERRAR SESIÓN</button>
+      </div>
+    }
+  </div>
+
+  @if (!isRoot()) {
+    <button class="mobile-menu-button" (click)="navState.toggleMobileMenu(true)">
+      ☰ ÍNDICE
+    </button>
+  }
+</header>
+
+<!-- NAVEGACIÓN DE CICLOS -->
+@if (!isRoot()) {
+  <nav class="root-nav">
+    <div class="root-inner">
+      @for (cycle of navState.nav(); track cycle.id) {
+        <button
+          class="root-link"
+          [class.active]="navState.activeCycle() === cycle.id"
+          (click)="navState.setCycle(cycle.id)"
+        >
+          {{ cycle.id }}: {{ cycle.label }}
+        </button>
+      }
+    </div>
+  </nav>
+
+  <div class="leaf-nav">
+    <div class="leaf-inner">
+      @for (leaf of navState.currentLeaves(); track leaf.id) {
+        <button
+          class="leaf-link"
+          [class.active]="navState.activeLeaf() === leaf.id"
+          (click)="navState.navigateLeaf(leaf.id, leaf.route)"
+        >
+          {{ leaf.id }}. {{ leaf.label }}
+        </button>
+      }
+      <span class="breadcrumb">FOLIO 02 // HOJA PRINCIPAL</span>
+    </div>
+  </div>
+}
+
+<!-- MENÚ MÓVIL -->
+@if (navState.isMobileMenuOpen() && !isRoot()) {
+  <div class="mobile-index">
+    <div class="index-header">
+      <span class="folio-label">ÍNDICE DEL EXPEDIENTE</span>
+      <button (click)="navState.toggleMobileMenu(false)">✕</button>
+    </div>
+
+    @for (cycle of navState.nav(); track cycle.id) {
+      <div class="index-cycle">
+        <button
+          class="index-cycle-title"
+          (click)="navState.setCycle(cycle.id)"
+        >
+          {{ cycle.id }} <span>{{ cycle.label }}</span>
+        </button>
+
+        @for (leaf of cycle.leaves; track leaf.id) {
+          <button
+            class="index-leaf"
+            [class.selected]="navState.activeLeaf() === leaf.id"
+            (click)="navState.navigateLeaf(leaf.id, leaf.route); navState.toggleMobileMenu(false)"
+          >
+            {{ leaf.id }}. {{ leaf.label }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+}

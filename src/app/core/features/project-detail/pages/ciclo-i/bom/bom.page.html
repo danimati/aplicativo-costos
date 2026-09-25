@@ -1,0 +1,86 @@
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">BOM</div>
+      <div>
+        <p class="eyebrow copper-text">EXPEDIENTE TÉCNICO VIGENTE / LISTA MAESTRA DE MATERIALES</p>
+        <h1>Lista de Materiales</h1>
+        <p class="subheading">PRY-2024-089 · Tablero de control para línea de extrusión 04 · Corte 22 SEP 2026</p>
+      </div>
+      <div class="heading-actions">
+        <button class="outline-button">IMPRIMIR</button>
+        <button class="outline-button">EXPORTAR</button>
+      </div>
+    </div>
+
+    <div class="spec-strip">
+      <!-- @for reemplaza a *ngFor. track $index es ideal para arreglos simples sin ID único -->
+      @for (s of specs; track $index) {
+        <div><span class="folio-label">{{ s[0] }}</span><strong>{{ s[1] }}</strong></div>
+      }
+    </div>
+
+    <!-- *ngIf reemplazado por @if. materials() porque ahora es un Signal -->
+    @if (materials(); as materials) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">RE-003 — COMPONENTES PRINCIPALES</span>
+          <span class="folio-label">{{ materials.length }} ÍTEMS / ORDEN DE COMPRA 041</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>DESCRIPCIÓN</th>
+              <th>PROVEEDOR</th>
+              <th>TIPO DE CÁLCULO</th>
+              <th>CANTIDAD</th>
+              <th>PRECIO UNIT.</th>
+              <th>SUBTOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- @for reemplaza a *ngFor. track m.id optimiza el renderizado de la tabla -->
+              @for (m of materials; track m.id) {
+                <tr [class.estimated-row]="m.calcType === 'ESTIMADO'">
+                  <td class="mono">{{ m.id }}</td>
+                  <td>
+                    <strong>{{ m.description }}</strong>
+                    <!-- @if anidado reemplaza al *ngIf interior -->
+                    @if (m.calcType === 'ESTIMADO') {
+                      <div class="kraft-note">
+                        <span>NOTA METROLÓGICA:</span> {{ m.note }}
+                      </div>
+                    }
+                  </td>
+                  <td>{{ m.supplier }}<small>PRV-{{ m.id }} / PRECIO VIGENTE</small></td>
+                  <td>
+                    <!-- app-stamp mantiene su contenido proyectado (ng-content) -->
+                    <app-stamp [copperText]="m.calcType === 'ESTIMADO'">{{ m.calcType }}</app-stamp>
+                  </td>
+                  <td class="number">{{ m.quantity }}</td>
+                  <td class="number">{{ m.unitPrice }}</td>
+                  <td class="number strong-number">{{ m.subtotal }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="ledger-footer">
+          <span>3 EXACTOS · 2 ESTIMADOS</span>
+          <span>METROLOGÍA CERTIFICADA / CORTE 22 SEP 2026</span>
+        </div>
+      </div>
+    }
+
+    <div class="signature-grid">
+      <div><span class="folio-label">RESPONSABLE DE ESTIMACIÓN</span><em>Andrea Morales</em><small>ID-000184 · 22/09/2026 14:32</small></div>
+      <div><span class="folio-label">JEFE DE TALLER</span><em>J. Castañeda</em><small>PENDIENTE DE FIRMA</small></div>
+      <div><span class="folio-label">CONTROL METROLÓGICO</span><em>Conforme</em><small>REV-04.22 · TRAZABLE</small></div>
+    </div>
+  </main>
+
+  <!-- Etiqueta de autocierre soportada nativamente en Angular 20 -->
+  <app-balance-panel />
+</div>

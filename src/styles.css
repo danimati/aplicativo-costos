@@ -1,1 +1,588 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap');
+
+:root {
+  --background: #FBF9F4;
+  --foreground: #1B1C19;
+  --surface: #FBF9F4;
+  --paper: #FFFFFF;
+  --low: #F5F3EE;
+  --container: #F0EEE9;
+  --high: #EAE8E3;
+  --highest: #E4E2DD;
+  --line: #C4C7C7;
+  --muted: #6A6D6D;
+  --copper: #974822;
+  --kraft: #EADCC9;
+  --error: #BA1A1A;
+  --radius: 0px;
+}
+
+* {
+  box-sizing: border-box;
+  border-radius: 0 !important;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Utilidades tipográficas globales */
+.mono, .folio-label, .number, .ledger th, .ledger-footer, .root-link, .leaf-link, .breadcrumb, .field-label, .eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.folio-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: .12em;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+.copper-text {
+  color: var(--copper);
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+
+h1, h2, h3 {
+  font-family: 'Newsreader', serif;
+  font-weight: 500;
+  margin: 0;
+}
+
+h1 {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.subheading {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Botones compartidos */
+.black-button, .outline-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid #000;
+  min-height: 43px;
+  padding: 0 15px;
+  font: 600 10px 'JetBrains Mono';
+  letter-spacing: .11em;
+  transition: transform .08s;
+}
+
+.black-button {
+  background: #000;
+  color: #fff;
+}
+
+.black-button:hover, .outline-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--copper);
+}
+
+.black-button:active, .outline-button:active {
+  transform: translate(.5px, .5px);
+}
+
+.black-button.small {
+  min-height: 38px;
+}
+
+.outline-button {
+  background: transparent;
+  color: #000;
+  min-height: 34px;
+  padding: 0 11px;
+  font-size: 9px;
+}
+
+/* Layouts y contenedores compartidos */
+.app-content {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 34px 3.2vw 55px;
+}
+
+.page-grid {
+  display: block;
+  gap: 35px;
+}
+
+.page-heading {
+  display: grid;
+  grid-template-columns:58px 1fr auto;
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 27px;
+}
+
+.section-mark {
+  width: 58px;
+  height: 58px;
+  font-size: 14px;
+}
+
+.heading-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.spec-strip {
+  display: grid;
+  grid-template-columns:repeat(5, 1fr);
+  background: var(--container);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+
+.spec-strip > div {
+  padding: 14px;
+  border-right: 1px solid var(--line);
+}
+
+.spec-strip > div:last-child {
+  border: 0;
+}
+
+.spec-strip strong {
+  display: block;
+  font: 500 13px 'JetBrains Mono';
+  margin-top: 5px;
+}
+
+/* Tablas (Ledger) compartidas */
+.ledger-wrap {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.ledger-top, .ledger-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 15px;
+  background: var(--low);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.ledger th {
+  text-align: left;
+  background: var(--high);
+  padding: 12px 10px;
+  font-size: 9px;
+  letter-spacing: .08em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ledger td {
+  border-top: 1px solid var(--line);
+  padding: 14px 10px;
+  vertical-align: top;
+  min-width: 75px;
+}
+
+.ledger td:nth-child(2) {
+  min-width: 230px;
+}
+
+.ledger td strong {
+  font-weight: 500;
+}
+
+.ledger td small {
+  display: block;
+  color: var(--muted);
+  font: 9px 'JetBrains Mono';
+  margin-top: 5px;
+}
+
+.estimated-row {
+  background: #FDFCFA;
+}
+
+.number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.strong-number {
+  font-weight: 600;
+}
+
+.kraft-note {
+  display: inline-block;
+  background: var(--kraft);
+  box-shadow: 2px 2px 0 #C7B69F;
+  padding: 7px 8px;
+  margin-top: 8px;
+  transform: rotate(-1deg);
+  font: 9px 'JetBrains Mono';
+  color: #51483C;
+}
+
+.kraft-note span {
+  color: var(--copper);
+  font-size: 8px;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.ledger-footer {
+  border-top: 1px solid var(--line);
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.ledger-footer i {
+  color: var(--copper);
+  font-style: normal;
+  margin: 0 5px;
+}
+
+.compact-ledger .ledger td {
+  padding: 16px 12px;
+}
+
+/* Elementos compartidos (Stamps, Avatars) */
+.stamp {
+  display: inline-block;
+  background: var(--highest);
+  padding: 5px 7px;
+  font: 600 9px 'JetBrains Mono';
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+
+.stamp-copper {
+  background: #FFDBCD;
+  color: #6B2A11;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  border: 1px solid #000;
+  width: 32px;
+  height: 32px;
+  border-radius: 50% !important;
+  font: 600 10px 'JetBrains Mono';
+}
+
+/* Componentes Globales (Soporte) */
+.support-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.receipt {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 19px;
+  box-shadow: 3px 3px 0 #D9D3C9;
+}
+
+.receipt h3 {
+  font-size: 26px;
+  margin: 7px 0 20px;
+}
+
+.receipt-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.receipt-lines div, .receipt-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: baseline;
+}
+
+.receipt-lines span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.receipt-lines b {
+  font: 12px 'JetBrains Mono';
+}
+
+.receipt-total {
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.receipt-total strong {
+  width: 100%;
+  color: var(--copper);
+  font: 500 30px 'Newsreader';
+}
+
+.receipt-total small {
+  font: 9px 'JetBrains Mono';
+  color: var(--muted);
+}
+
+.verification {
+  border: 1px solid var(--copper);
+  padding: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--copper);
+}
+
+.verification-top {
+  font: 9px 'JetBrains Mono';
+  letter-spacing: .12em;
+}
+
+.verification b {
+  background: var(--copper);
+  color: #fff;
+  padding: 8px;
+  font: 600 10px 'JetBrains Mono';
+  letter-spacing: .08em;
+}
+
+.verification span, .verification small {
+  font: 9px 'JetBrains Mono';
+}
+
+.mini-donut {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-top: 1px solid var(--line);
+  padding-top: 19px;
+}
+
+.donut {
+  width: 86px;
+  height: 86px;
+  flex: 0 0 auto;
+  border-radius: 50% !important;
+  background: conic-gradient(var(--copper) 0 65%, #1B1C19 65% 93%, #C4C7C7 93%);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.donut:after {
+  content: '';
+  position: absolute;
+  inset: 13px;
+  background: var(--background);
+  border-radius: 50% !important;
+}
+
+.donut span {
+  position: relative;
+  z-index: 1;
+  font: 600 12px 'JetBrains Mono';
+}
+
+.mini-donut p {
+  margin: 5px 0;
+  font: 10px 'JetBrains Mono';
+}
+
+.mini-donut p:not(.folio-label) {
+  color: var(--muted);
+}
+
+.mini-donut b {
+  color: #000;
+  float: right;
+  margin-left: 15px;
+}
+
+.signature-grid {
+  display: grid;
+  grid-template-columns:repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  margin-top: 27px;
+}
+
+.signature-grid > div {
+  padding: 17px 14px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.signature-grid > div:last-child {
+  border: 0;
+}
+
+.signature-grid em {
+  font: italic 22px 'Newsreader';
+  margin-top: 8px;
+}
+
+.signature-grid small {
+  font: 9px 'JetBrains Mono';
+  color: var(--muted);
+}
+
+.global-footer {
+  border-top: 1px solid var(--line);
+  padding: 13px 3.2vw;
+  display: flex;
+  justify-content: space-between;
+  font: 9px 'JetBrains Mono';
+  color: var(--muted);
+}
+
+.focus-block {
+  border: 1px solid var(--line);
+  background: var(--container);
+  padding: 23px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.focus-block h2 {
+  font-size: 30px;
+  margin: 5px 0;
+}
+
+.focus-block p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Media Queries Globales (Layout) */
+@media (max-width: 900px) {
+  .page-grid {
+    grid-template-columns:1fr;
+  }
+
+  .support-column {
+    display: grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mini-donut {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .app-content {
+    padding: 18px 16px 38px;
+  }
+
+  .page-heading {
+    grid-template-columns:45px 1fr;
+    gap: 12px;
+  }
+
+  .section-mark {
+    width: 45px;
+    height: 45px;
+    font-size: 11px;
+  }
+
+  .page-heading h1 {
+    font-size: 34px;
+  }
+
+  .heading-actions {
+    grid-column: 1 / -1;
+  }
+
+  .spec-strip {
+    grid-template-columns:repeat(2, 1fr);
+  }
+
+  .spec-strip > div:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .spec-strip > div {
+    padding: 11px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .spec-strip strong {
+    font-size: 11px;
+  }
+
+  .support-column {
+    display: flex;
+  }
+
+  .signature-grid {
+    grid-template-columns:1fr;
+  }
+
+  .signature-grid > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .global-footer {
+    flex-direction: column;
+    gap: 6px;
+    padding: 13px 16px;
+  }
+
+  .focus-block {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .table-scroll {
+    margin: 0;
+  }
+
+  .ledger th, .ledger td {
+    font-size: 10px;
+  }
+}

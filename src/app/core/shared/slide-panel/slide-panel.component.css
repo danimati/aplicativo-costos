@@ -1,0 +1,35 @@
+.slide-overlay {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(0, 0, 0, 0.4); /* Fondo oscuro */
+  animation: fadeIn .2s ease;
+}
+.slide-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 50;
+  width: 400px; max-width: 90vw;
+  background: var(--paper); /* Fondo blanco de tu diseño */
+  border-left: 2px solid var(--foreground);
+  box-shadow: -7px 0 0 var(--copper); /* Sombra cobre estilo "boxy" */
+  display: flex; flex-direction: column;
+  animation: slideIn .25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.slide-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  background: var(--low);
+}
+.slide-header strong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+}
+.slide-close {
+  border: 1px solid var(--line); background: #fff;
+  width: 30px; height: 30px;
+  font-family: 'JetBrains Mono', monospace; cursor: pointer;
+}
+.slide-close:hover { border-color: var(--foreground); }
+.slide-content {
+  padding: 22px; flex: 1; overflow-y: auto;
+}
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

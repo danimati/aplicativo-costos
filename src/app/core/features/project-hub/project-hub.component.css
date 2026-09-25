@@ -1,0 +1,327 @@
+.project-hub {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.hub-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 28px;
+  padding: 26px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hub-heading h1 {
+  font-size: 44px;
+}
+
+.hub-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.hub-summary {
+  display: grid;
+  grid-template-columns:repeat(4, 1fr);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  margin: 22px 0 34px;
+}
+
+.hub-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 15px 18px;
+  border-right: 1px solid var(--line);
+}
+
+.hub-summary > div:last-child {
+  border-right: 0;
+}
+
+.hub-summary strong {
+  font: 500 25px 'Newsreader', serif;
+}
+
+.hub-summary small {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.project-section, .calendar-section {
+  margin-bottom: 38px;
+}
+
+.section-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.section-line h2 {
+  font-size: 28px;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap: 12px;
+}
+
+.project-card {
+  min-height: 220px;
+  padding: 17px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--container);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  text-align: left;
+}
+
+.project-card:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+}
+
+.project-card:hover {
+  border-color: #000;
+  transform: translateY(-2px);
+}
+
+.project-card-top, .project-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.project-code {
+  color: var(--copper);
+  font-size: 11px;
+}
+
+.project-card h3 {
+  font-size: 23px;
+  line-height: 1.05;
+  margin: 24px 0 4px;
+}
+
+.project-family {
+  margin: 0;
+  color: var(--muted);
+  font: 10px 'JetBrains Mono';
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.project-progress {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.project-progress > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-progress strong {
+  font: 600 11px 'JetBrains Mono';
+}
+
+.progress-track {
+  height: 5px;
+  background: var(--high);
+  margin-top: 7px;
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  background: var(--copper);
+}
+
+.project-card-footer {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 11px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.project-card-footer > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.project-avatar {
+  width: 22px;
+  height: 22px;
+  font-size: 8px;
+}
+
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.calendar-controls strong {
+  font: 600 10px 'JetBrains Mono';
+  letter-spacing: .08em;
+}
+
+.calendar-controls .outline-button {
+  min-height: 30px;
+  padding: 0 10px;
+}
+
+.calendar-wrap {
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.calendar-week, .calendar-days {
+  display: grid;
+  grid-template-columns:repeat(7, 1fr);
+}
+
+.calendar-week {
+  background: #000;
+  color: #fff;
+}
+
+.calendar-week span {
+  padding: 9px 10px;
+  font: 600 9px 'JetBrains Mono';
+  letter-spacing: .1em;
+  border-right: 1px solid #444;
+}
+
+.calendar-days {
+  grid-auto-rows: minmax(86px, auto);
+}
+
+.calendar-day {
+  min-width: 0;
+  padding: 9px;
+  border-right: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  font: 11px 'JetBrains Mono';
+}
+
+.calendar-day:nth-child(7n) {
+  border-right: 0;
+}
+
+.calendar-day > span {
+  color: var(--muted);
+}
+
+.calendar-day.has-event > span {
+  color: #000;
+  font-weight: 700;
+}
+
+.calendar-day div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 9px;
+  padding: 6px;
+  background: var(--kraft);
+  border-left: 3px solid var(--copper);
+}
+
+.calendar-day b {
+  font: 600 9px 'JetBrains Mono';
+  line-height: 1.2;
+}
+
+.calendar-day small {
+  font-size: 9px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 900px) {
+  .project-grid {
+    grid-template-columns:repeat(2, 1fr);
+  }
+
+  .hub-summary {
+    grid-template-columns:repeat(2, 1fr);
+  }
+
+  .hub-summary > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .hub-summary > div {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 620px) {
+  .hub-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .hub-heading h1 {
+    font-size: 35px;
+  }
+
+  .hub-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .hub-actions button {
+    width: 100%;
+  }
+
+  .hub-summary {
+    margin-top: 18px;
+  }
+
+  .project-grid {
+    grid-template-columns:1fr;
+  }
+
+  .project-card {
+    min-height: 205px;
+  }
+
+  .calendar-section {
+    overflow: hidden;
+  }
+
+  .calendar-wrap {
+    min-width: 680px;
+  }
+
+  .section-line {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .calendar-controls {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  .calendar-days {
+    grid-auto-rows: 75px;
+  }
+}

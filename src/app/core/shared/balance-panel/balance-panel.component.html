@@ -1,0 +1,34 @@
+<aside class="support-column">
+  <section class="receipt">
+    <p class="folio-label">FOLIO BALANCE GENERAL</p>
+    <h3>Composición del costo</h3>
+    <div class="receipt-lines">
+      <div><span>Materiales exactos</span><b>{{ summary.exactMaterials }}</b></div>
+      <div><span>Materiales estimados</span><b>{{ summary.estimatedMaterials }}</b></div>
+      <div><span>Mano de obra</span><b>{{ summary.labor }}</b></div>
+      <div><span>CostosPage indirectos</span><b>{{ summary.overhead }}</b></div>
+    </div>
+    <div class="receipt-total">
+      <span class="folio-label copper-text">TOTAL ESTIMADO</span>
+      <strong>{{ summary.total }}</strong>
+      <small>CIERRE CICLO I / MXN</small>
+    </div>
+  </section>
+
+  <section class="verification">
+    <div class="verification-top">+ CONTROL METROLÓGICO +</div>
+    <b>DICTAMEN DE ADQUISICIÓN</b>
+    <span>VERIFICADO / REV-04.22</span>
+    <small>HASH-SHA256: 8B4A · 09F2 · C1D7</small>
+  </section>
+
+  <section class="mini-donut">
+    <div class="donut" aria-label="Reparto de costos"><span>53%</span></div>
+    <div>
+      <p class="folio-label">REPARTO POR FAMILIA</p>
+      <p>Materiales <b>65%</b></p>
+      <p>Mano de obra <b>28%</b></p>
+      <p>Indirectos <b>7%</b></p>
+    </div>
+  </section>
+</aside>

@@ -1,0 +1,39 @@
+
+.back-link {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 25px 0; /* Espacio inferior para separarlo del contenido */
+
+  /* Estilo tipográfico */
+  background: transparent;
+  border: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+
+  /* Transiciones suaves */
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+/* Efecto al pasar el mouse */
+.back-link:hover {
+  color: var(--copper);
+  transform: translateX(-3px); /* Efecto visual de "retroceso" */
+}
+
+/* Efecto al hacer click */
+.back-link:active {
+  transform: translateX(0);
+}
+
+/* Si el botón se enfoca con el teclado (Accesibilidad) */
+.back-link:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 4px;
+}

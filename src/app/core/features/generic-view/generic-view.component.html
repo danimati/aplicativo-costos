@@ -1,0 +1,52 @@
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <!-- Evaluamos el signal code() -->
+      <div class="section-mark">{{ code() }}</div>
+      <div>
+        <p class="eyebrow copper-text">EXPEDIENTE TÉCNICO / HOJA OPERATIVA</p>
+        <!-- Evaluamos el signal title() -->
+        <h1>{{ title() }}</h1>
+        <p class="subheading">PRY-2024-089 · Tablero de control para línea de extrusión 04 · Actualizado hoy</p>
+      </div>
+      <div class="heading-actions"><button class="black-button small">+ NUEVO REGISTRO</button></div>
+    </div>
+
+    <div class="focus-block">
+      <div>
+        <span class="folio-label">ESTADO DEL OPERATIVO</span>
+        <h2>Registro en curso</h2>
+        <p>Seleccione una hoja del índice para consultar, editar y dejar trazabilidad de los datos del proyecto.</p>
+      </div>
+      <app-stamp [copperText]="true">EN CALIBRACIÓN</app-stamp>
+    </div>
+
+    <div class="ledger-wrap compact-ledger">
+      <div class="ledger-top">
+        <span class="folio-label">RE-{{ code() === 'FOL' ? '001' : '025' }} — REGISTRO PRINCIPAL</span>
+        <span class="folio-label">03 REGISTROS</span>
+      </div>
+      <table class="ledger">
+        <thead>
+        <tr><th>FOLIO</th><th>CONCEPTO</th><th>RESPONSABLE</th><th>ESTADO</th><th>FECHA DE CORTE</th></tr>
+        </thead>
+        <tbody>
+        <!-- @for reemplaza a *ngFor. Obligatorio usar track r.folio en Angular 20 -->
+          @for (r of rows; track r.folio) {
+            <tr>
+              <td class="mono">{{ r.folio }}</td>
+              <td><strong>{{ r.concept }}</strong></td>
+              <td>{{ r.owner }}</td>
+              <td><app-stamp [copperText]="r.status === 'EN CALIBRACIÓN'">{{ r.status }}</app-stamp></td>
+              <td class="mono">{{ r.date }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div class="ledger-footer"><span>TRAZABILIDAD COMPLETA</span><span>METROLOGÍA CERTIFICADA</span></div>
+    </div>
+  </main>
+
+  <!-- Autocierre para componentes sin contenido proyectado -->
+  <app-balance-panel />
+</div>

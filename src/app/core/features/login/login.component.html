@@ -1,0 +1,56 @@
+<main class="login-shell">
+  <div class="registration reg-a">+</div>
+  <div class="registration reg-b">+</div>
+  <section class="login-panel">
+    <header class="login-head">
+      <div class="login-mark">CI</div>
+      <div class="folio-label copper-text">SISTEMA DE REGISTRO INDUSTRIAL<br />CONTROL DE ACCESO</div>
+    </header>
+    <div class="login-content">
+      <p class="eyebrow">EXPEDIENTE TÉCNICO / METROLOGÍA</p>
+      <h1>Acceso al<br />Expediente</h1>
+      <p class="login-intro">Ingrese sus credenciales para continuar al sistema de costos y control de proyectos.</p>
+
+      @if (error()) {
+        <div class="incident">
+          <span>ACCESO DENEGADO — verifique usuario y contraseña</span>
+        </div>
+      }
+
+      <form class="login-form" (ngSubmit)="onSubmit()">
+        <label class="field-label" for="email">USUARIO / CORREO CORPORATIVO</label>
+        <input id="email" class="document-input" type="email" placeholder="nombre@empresa.com" required />
+
+        <label class="field-label" for="password">CONTRASEÑA</label>
+        <div class="password-wrap">
+          <input
+            id="password"
+            class="document-input"
+            [type]="showPassword() ? 'text' : 'password'"
+            placeholder="••••••••"
+            required
+          />
+          <button type="button" aria-label="Mostrar contraseña" (click)="togglePassword()">
+            {{ showPassword() ? 'Ocultar' : 'Ver' }}
+          </button>
+        </div>
+
+        <div class="login-options">
+          <label class="check-label"><input type="checkbox" /> <span>Mantener sesión abierta</span></label>
+          <button type="button" class="text-link">¿OLVIDÓ SU CONTRASEÑA?</button>
+        </div>
+
+        <button class="black-button" type="submit">INGRESAR AL SISTEMA →</button>
+      </form>
+
+      <div class="role-picker">
+        <span class="field-label">ÁREA DE TRABAJO</span>
+        <div class="role-chips">
+          <button class="role-chip active">FINANCIERO</button>
+          <button class="role-chip">PLANEACIÓN</button>
+        </div>
+      </div>
+    </div>
+    <footer class="login-footer">SISTEMA REGISTRO INDUSTRIAL · METROLOGÍA V.4.1 · ID: 000184</footer>
+  </section>
+</main>
