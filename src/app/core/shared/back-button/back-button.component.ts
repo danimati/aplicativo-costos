@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class BackButtonComponent {
   label = input<string>('VOLVER AL PORTAFOLIO');
-  route = input<string>('/proyectos');
+  route = input<string>('/app/proyectos');
 
   private router = inject(Router);
 

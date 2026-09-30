@@ -1,1 +1,60 @@
-<p>recepcion works!</p>
+<!-- recepcion.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">RC</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO II / CONTROL DE INGRESO DE MATERIAL</p>
+        <h1>Recepción de Materiales</h1>
+        <p class="subheading">{{ projectId() }} · Comparativo entre lo solicitado y lo efectivamente recibido</p>
+      </div>
+    </div>
+
+    @if (items().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">MATERIALES ESPERADOS</span>
+          <span class="folio-label">{{ incidentsCount() }} CON INCIDENCIA</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Cantidades solicitadas frente a recibidas, con incidencias reportadas</caption>
+            <thead>
+            <tr>
+              <th scope="col">MATERIAL</th>
+              <th scope="col">PROVEEDOR / LOTE</th>
+              <th scope="col">SOLICITADO</th>
+              <th scope="col">RECIBIDO</th>
+              <th scope="col">PENDIENTE</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">FECHA RECEPCIÓN</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (i of items(); track i.id) {
+                <tr>
+                  <td><strong>{{ i.materialDescription }}</strong><br /><small class="mono">{{ i.materialId }}</small></td>
+                  <td>{{ i.supplier }}<br /><small>{{ i.lotRef }}</small></td>
+                  <td class="number">{{ i.requestedQuantity }}</td>
+                  <td class="number">{{ i.receivedQuantity }}</td>
+                  <td class="number">{{ pendingQuantity(i) }}</td>
+                  <td>
+                    <app-stamp [copperText]="i.status === 'CONFORME'">{{ i.status }}</app-stamp>
+                    @if (i.incidentNote) {
+                      <div class="kraft-note"><span>INCIDENCIA:</span> {{ i.incidentNote }}</div>
+                    }
+                  </td>
+                  <td>{{ i.receivedDate ? (i.receivedDate | date: 'd MMM y') : 'SIN RECIBIR' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay materiales en proceso de recepción para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

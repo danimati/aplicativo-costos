@@ -1,0 +1,11 @@
+.blockers-panel {
+  border: 1px solid var(--copper);
+  background: var(--low);
+  padding: 12px 16px;
+  margin: 16px 0;
+}
+.blockers-panel ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+}

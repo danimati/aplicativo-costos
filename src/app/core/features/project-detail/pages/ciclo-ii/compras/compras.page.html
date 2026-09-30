@@ -1,1 +1,63 @@
-<p>compras works!</p>
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">CO</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO II / SEGUIMIENTO DE ADQUISICIONES</p>
+        <h1>Compras</h1>
+        <p class="subheading">{{ projectId() }} · Estado de solicitudes y órdenes de compra ligadas al BOM</p>
+      </div>
+      <div class="heading-actions">
+        <button class="outline-button">EXPORTAR</button>
+      </div>
+    </div>
+
+    @if (items().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">MATERIALES EN PROCESO DE COMPRA</span>
+          <span class="folio-label">{{ items().length }} ÍTEMS</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Estado de compra por material, proveedor y fecha esperada</caption>
+            <thead>
+            <tr>
+              <th scope="col">MATERIAL</th>
+              <th scope="col">PROVEEDOR / COTIZACIÓN</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">CANT.</th>
+              <th scope="col">PRECIO NETO</th>
+              <th scope="col">FECHA ESPERADA</th>
+              <th scope="col">RESPONSABLE</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (i of items(); track i.id) {
+                <tr>
+                  <td><strong>{{ i.materialDescription }}</strong><br /><small class="mono">{{ i.materialId }}</small></td>
+                  <td>{{ i.supplier }}<br /><small>{{ i.quotationRef || 'SIN COTIZACIÓN' }}</small></td>
+                  <td>
+                    <app-stamp [copperText]="i.status === 'COMPLETO'">{{ i.status }}</app-stamp>
+                  </td>
+                  <td class="number">{{ i.quantity }}</td>
+                  <td class="number">{{ netPrice(i) | number: '1.0-0' }}</td>
+                  <td>{{ i.expectedDate | date: 'd MMM y' }}</td>
+                  <td>{{ i.owner }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="ledger-footer">
+          <span>VALOR SOLICITADO: $ {{ requestedValue() | number: '1.0-0' }}</span>
+          <span>VALOR RECIBIDO: $ {{ receivedValue() | number: '1.0-0' }}</span>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay solicitudes de compra registradas para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

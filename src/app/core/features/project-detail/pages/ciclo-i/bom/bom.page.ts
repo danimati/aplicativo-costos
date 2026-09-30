@@ -6,6 +6,7 @@ import { BalancePanelComponent } from '../../../../../shared/balance-panel/balan
 import { StampComponent } from '../../../../../shared/stamp/stamp.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BomMaterial } from '../../../../../models/material.model';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-bom',
@@ -17,7 +18,9 @@ export class BomPage implements OnInit {
   private route = inject(ActivatedRoute);
 
   private bomService = inject(BomService);
-  materials = toSignal(this.bomService.getMaterials('PRY-2024-089'), {
+  materials = toSignal(this.route.parent!.paramMap.pipe(
+    switchMap((params) => this.bomService.getMaterials(params.get('id') ?? '')),
+  ), {
     initialValue: [] as BomMaterial[],
   });
 

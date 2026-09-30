@@ -1,1 +1,73 @@
-<p>mano-obra works!</p>
+<!-- mano-obra.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">MO</div>
+      <div>
+        <p class="eyebrow copper-text">RE-005 — RE-008 / PROYECCIÓN DE MANO DE OBRA</p>
+        <h1>Mano de Obra &amp; Etapas</h1>
+        <p class="subheading">{{ projectId() }} · Estimación por etapa, no medición de productividad</p>
+      </div>
+      <div class="heading-actions">
+        <button class="outline-button">IMPRIMIR</button>
+        <button class="outline-button">EXPORTAR</button>
+      </div>
+    </div>
+
+    <div class="kraft-note" role="note">
+      <span>AVISO:</span> Esta vista muestra horas <strong>proyectadas</strong> por etapa para fines de estimación de costo.
+      No mide tiempo efectivo trabajado, tiempo muerto ni productividad real (RE-016, RE-017, RE-018 fuera de alcance).
+    </div>
+
+    @if (stages().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">RE-006 — ETAPAS DEL PROYECTO</span>
+          <span class="folio-label">{{ stages().length }} ETAPAS</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Etapas de mano de obra con horas estimadas y costo proyectado</caption>
+            <thead>
+            <tr>
+              <th scope="col">ETAPA</th>
+              <th scope="col">RESPONSABLE</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">HORAS EST.</th>
+              <th scope="col">VALOR HORA</th>
+              <th scope="col">COSTO ESTIMADO</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (s of stages(); track s.id) {
+                <tr>
+                  <td>
+                    <strong>{{ s.name }}</strong>
+                    @if (s.notes) {
+                      <div class="kraft-note"><span>NOTA:</span> {{ s.notes }}</div>
+                    }
+                  </td>
+                  <td>{{ s.owner }}</td>
+                  <td><app-stamp [copperText]="s.status === 'EN PROCESO'">{{ statusLabel(s.status) }}</app-stamp></td>
+                  <td class="number">{{ s.estimatedHours }} h</td>
+                  <td class="number">{{ s.hourlyRate | number: '1.0-0' }}</td>
+                  <td class="number strong-number">{{ s.estimatedHours * s.hourlyRate | number: '1.0-0' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="ledger-footer">
+          <span>{{ totalHours() }} HORAS TOTALES</span>
+          <span>COSTO TOTAL DE MANO DE OBRA: $ {{ totalCost() | number: '1.0-0' }}</span>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay etapas de mano de obra registradas para este proyecto.</p>
+      </div>
+    }
+  </main>
+
+  <app-balance-panel />
+</div>

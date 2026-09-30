@@ -1,1 +1,60 @@
-<p>cableado works!</p>
+<!-- cableado.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">CB</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO III / TRABAJO EN SITIO</p>
+        <h1>Cableado</h1>
+        <p class="subheading">{{ projectId() }} · Seguimiento de circuitos, no editor eléctrico</p>
+      </div>
+    </div>
+
+    <div class="spec-strip">
+      <div><span class="folio-label">CIRCUITOS COMPLETOS</span><strong>{{ completedCount() }} / {{ circuits().length }}</strong></div>
+      <div><span class="folio-label">PENDIENTES DE CONTROL DE CALIDAD</span><strong>{{ pendingQcCount() }}</strong></div>
+    </div>
+
+    @if (circuits().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">CIRCUITOS DE CABLEADO</span>
+          <span class="folio-label">{{ circuits().length }} CIRCUITOS</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Circuitos de cableado con origen, destino, calibre y estado</caption>
+            <thead>
+            <tr>
+              <th scope="col">REF.</th>
+              <th scope="col">ORIGEN</th>
+              <th scope="col">DESTINO</th>
+              <th scope="col">CALIBRE</th>
+              <th scope="col">CANTIDAD</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">CONTROL DE CALIDAD</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (c of circuits(); track c.id) {
+                <tr>
+                  <td class="mono">{{ c.circuitRef }}</td>
+                  <td>{{ c.origin }}</td>
+                  <td>{{ c.destination }}</td>
+                  <td>{{ c.gauge }}</td>
+                  <td class="number">{{ c.quantity }}</td>
+                  <td><app-stamp [copperText]="c.status === 'APROBADO'">{{ c.status }}</app-stamp></td>
+                  <td>{{ c.qcPending ? 'PENDIENTE DE REVISIÓN' : 'SIN OBSERVACIONES' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay circuitos de cableado registrados para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

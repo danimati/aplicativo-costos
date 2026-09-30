@@ -1,0 +1,40 @@
+/* indicadores.page.css */
+.indicator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.indicator-card {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.indicator-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.demo-tag {
+  font: 700 8px 'JetBrains Mono';
+  letter-spacing: .04em;
+  border: 1px solid var(--copper);
+  color: var(--copper);
+  padding: 1px 5px;
+}
+
+.indicator-value {
+  font: 600 24px 'Newsreader', serif;
+}
+
+.indicator-source {
+  color: var(--muted);
+  font: 500 9px 'JetBrains Mono';
+  letter-spacing: .03em;
+}

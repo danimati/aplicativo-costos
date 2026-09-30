@@ -1,1 +1,56 @@
-<p>ensamble works!</p>
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">EN</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO II / TALLER</p>
+        <h1>Ensamble</h1>
+        <p class="subheading">{{ projectId() }} · Subensambles del tablero y sus dependencias</p>
+      </div>
+    </div>
+
+    <div class="spec-strip">
+      <div><span class="folio-label">TERMINADOS</span><strong>{{ completedCount() }}</strong></div>
+      <div><span class="folio-label">EN PROCESO</span><strong>{{ inProgressCount() }}</strong></div>
+      <div><span class="folio-label">PENDIENTES / BLOQUEADOS</span><strong>{{ pendingCount() }}</strong></div>
+    </div>
+
+    @if (units().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">CONJUNTOS DE ENSAMBLE</span>
+          <span class="folio-label">{{ units().length }} CONJUNTOS</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Conjuntos de ensamble con estado, avance y dependencias entre ellos</caption>
+            <thead>
+            <tr>
+              <th scope="col">CONJUNTO</th>
+              <th scope="col">RESPONSABLE</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">AVANCE</th>
+              <th scope="col">DEPENDE DE</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (u of units(); track u.id) {
+                <tr>
+                  <td><strong>{{ u.name }}</strong></td>
+                  <td>{{ u.owner }}</td>
+                  <td><app-stamp [copperText]="u.status === 'BLOQUEADO'">{{ u.status }}</app-stamp></td>
+                  <td><app-progress-bar [value]="u.progress" /></td>
+                  <td><small>{{ dependencyNames(u) }}</small></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay conjuntos de ensamble registrados para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

@@ -1,1 +1,61 @@
-<p>instalacion works!</p>
+<!-- instalacion.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">IN</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO III / TRABAJO EN SITIO</p>
+        <h1>Instalación</h1>
+        <p class="subheading">{{ projectId() }} · Actividades de instalación en el frente de trabajo</p>
+      </div>
+    </div>
+
+    @if (activities().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">ACTIVIDADES DE INSTALACIÓN</span>
+          <span class="folio-label">{{ activities().length }} ACTIVIDADES</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Actividades de instalación en sitio con ubicación, estado y avance</caption>
+            <thead>
+            <tr>
+              <th scope="col">ACTIVIDAD</th>
+              <th scope="col">FRENTE DE TRABAJO</th>
+              <th scope="col">RESPONSABLE</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">AVANCE</th>
+              <th scope="col">FECHA PREVISTA</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (a of activities(); track a.id) {
+                <tr>
+                  <td>
+                    <strong>{{ a.activity }}</strong>
+                    @if (a.prerequisite) {
+                      <div class="kraft-note"><span>REQUISITO PREVIO:</span> {{ a.prerequisite }}</div>
+                    }
+                    @if (a.notes) {
+                      <div class="kraft-note"><span>NOTA:</span> {{ a.notes }}</div>
+                    }
+                  </td>
+                  <td>{{ a.location }}</td>
+                  <td>{{ a.owner }}</td>
+                  <td><app-stamp [copperText]="a.status === 'BLOQUEADO'">{{ a.status }}</app-stamp></td>
+                  <td><app-progress-bar [value]="a.progress" /></td>
+                  <td>{{ a.targetDate | date: 'd MMM y' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay actividades de instalación registradas para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

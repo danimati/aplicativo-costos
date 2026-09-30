@@ -1,1 +1,57 @@
-<p>horas works!</p>
+<!-- horas.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">HR</div>
+      <div>
+        <p class="eyebrow copper-text">REPORTES & CONTROL</p>
+        <h1>Horas</h1>
+        <p class="subheading">{{ projectId() }} · Mano de obra proyectada, no tiempo efectivamente trabajado</p>
+      </div>
+    </div>
+
+    @if (report(); as r) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">HORAS PROYECTADAS POR ETAPA</span>
+          <span class="folio-label">{{ r.stages.length }} ETAPAS</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Horas proyectadas, valor hora y costo estimado por etapa</caption>
+            <thead>
+            <tr>
+              <th scope="col">ETAPA</th>
+              <th scope="col">HORAS</th>
+              <th scope="col">VALOR HORA</th>
+              <th scope="col">COSTO ESTIMADO</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (s of r.stages; track s.name) {
+                <tr>
+                  <td><strong>{{ s.name }}</strong></td>
+                  <td class="number">{{ s.hours }} h</td>
+                  <td class="number">$ {{ s.hourlyRate | number: '1.0-0' }}</td>
+                  <td class="number strong-number">$ {{ s.cost | number: '1.0-0' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="ledger-footer">
+          <span>{{ r.totalHours }} HORAS TOTALES</span>
+          <span>COSTO TOTAL: $ {{ r.totalCost | number: '1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="kraft-note" role="note">
+        <span>CAPACIDAD DISPONIBLE (RE-015):</span> Pendiente de caracterización — aún no alimenta ningún cálculo.
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay datos de horas disponibles para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

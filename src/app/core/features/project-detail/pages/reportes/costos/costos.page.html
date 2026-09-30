@@ -1,1 +1,65 @@
-<p>costos works!</p>
+<!-- costos.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">CT</div>
+      <div>
+        <p class="eyebrow copper-text">RE-029 — RE-035 / ESTRUCTURA DE COSTOS</p>
+        <h1>Costos</h1>
+        <p class="subheading">{{ projectId() }} · Costo total = materiales + mano de obra + fijos + variables + indirectos</p>
+      </div>
+      <div class="heading-actions">
+        <button class="outline-button">EXPORTAR</button>
+      </div>
+    </div>
+
+    @if (report(); as r) {
+      <div class="ledger-wrap">
+        <div class="ledger-top"><span class="folio-label">COMPOSICIÓN DEL COSTO</span></div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Composición del costo total por rubro y su porcentaje del total</caption>
+            <thead>
+            <tr>
+              <th scope="col">RUBRO</th>
+              <th scope="col">VALOR</th>
+              <th scope="col">% DEL TOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (b of r.breakdown; track b.label) {
+                <tr>
+                  <td><strong>{{ b.label }}</strong></td>
+                  <td class="number">$ {{ b.amount | number: '1.0-0' }}</td>
+                  <td class="number">{{ percentOf(b.amount, r.totalCost) }}%</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="ledger-footer">
+          <span>COSTO TOTAL: $ {{ r.totalCost | number: '1.0-0' }}</span>
+          <span>MARGEN: {{ r.marginPercent }}%</span>
+        </div>
+      </div>
+
+      <div class="spec-strip">
+        <div><span class="folio-label">GANANCIA ESTIMADA</span><strong>$ {{ r.estimatedProfit | number: '1.0-0' }}</strong></div>
+        <div><span class="folio-label">VALOR FINAL ESTIMADO</span><strong>$ {{ r.finalEstimatedValue | number: '1.0-0' }}</strong></div>
+      </div>
+
+      <div class="kraft-note" role="note">
+        <span>COMPARACIÓN CON COSTO REAL (RE-027 / RE-037):</span>
+        @if (r.actualCostAvailable) {
+          Disponible.
+        } @else {
+          No disponible todavía — este proyecto no tiene costo ejecutado registrado.
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay datos de costos disponibles para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

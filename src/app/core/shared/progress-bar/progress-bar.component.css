@@ -1,0 +1,23 @@
+.progress-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.progress-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font: 500 10px 'JetBrains Mono';
+  color: var(--muted);
+}
+.progress-track {
+  position: relative;
+  height: 6px;
+  background: var(--low);
+  border: 1px solid var(--line);
+}
+.progress-track > span {
+  position: absolute;
+  inset: 0;
+  right: auto;
+  background: var(--copper);
+}

@@ -1,1 +1,65 @@
-<p>plantillas works!</p>
+<!-- plantillas.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">PL</div>
+      <div>
+        <p class="eyebrow copper-text">PLANTILLA APLICADA AL EXPEDIENTE</p>
+        <h1>Plantillas Base</h1>
+        <p class="subheading">{{ projectId() }} · Origen de materiales, mano de obra y parámetros heredados</p>
+      </div>
+      <div class="heading-actions">
+        <button class="outline-button">COMPARAR</button>
+        <button class="outline-button">DUPLICAR</button>
+        <button class="black-button small">APLICAR →</button>
+      </div>
+    </div>
+
+    @if (template(); as tpl) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">{{ tpl.templateName }} · {{ tpl.version }}</span>
+          <app-stamp [copperText]="tpl.status === 'VIGENTE'">{{ tpl.status }}</app-stamp>
+        </div>
+
+        <div class="spec-strip">
+          <div><span class="folio-label">FAMILIA</span><strong>{{ tpl.family }}</strong></div>
+          <div><span class="folio-label">AUTOR</span><strong>{{ tpl.author }}</strong></div>
+          <div><span class="folio-label">APLICADA EL</span><strong>{{ tpl.appliedAt | date: 'd MMM y' }}</strong></div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Bloques heredados de la plantilla y si fueron modificados en este proyecto</caption>
+            <thead>
+            <tr>
+              <th scope="col">BLOQUE</th>
+              <th scope="col">ORIGEN</th>
+              <th scope="col">ESTADO EN ESTE PROYECTO</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (b of tpl.blocks; track b.label) {
+                <tr>
+                  <td><strong>{{ b.label }}</strong></td>
+                  <td>{{ b.source }}</td>
+                  <td>
+                    <app-stamp [copperText]="b.overridden">
+                      {{ b.overridden ? 'MODIFICADO EN PROYECTO' : 'HEREDADO SIN CAMBIOS' }}
+                    </app-stamp>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <app-pending-state message="Guardar como plantilla y aplicar cambios aún no persisten en backend." />
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>Este proyecto no tiene una plantilla base asociada.</p>
+      </div>
+    }
+  </main>
+</div>

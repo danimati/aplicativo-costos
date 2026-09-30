@@ -61,8 +61,8 @@ export class NavStateService {
       this.showNotice(`Cargando ${leaf.label} · datos de demostración`);
     }
     const currentUrl = this.router.url.split('/');
-    const projectId = currentUrl[2]; // /proyectos/PRY-2024-089/bom -> [2] = 'PRY-2024-089'
-    console.log('DATOS DE NAVEGACIÓN:', { leafId, routePath, projectId });
+    const projectsSegmentIndex = currentUrl.indexOf('proyectos');
+    const projectId = projectsSegmentIndex >= 0 ? currentUrl[projectsSegmentIndex + 1] : '';
 
     if (projectId && routePath) {
       this.router.navigate(['/app/proyectos', projectId, routePath]);

@@ -1,1 +1,56 @@
-<p>fabricacion works!</p>
+<!-- fabricacion.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">FB</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO II / TALLER</p>
+        <h1>Fabricación</h1>
+        <p class="subheading">{{ projectId() }} · Avance de actividades de fabricación del tablero</p>
+      </div>
+    </div>
+
+    <div class="spec-strip">
+      <div><span class="folio-label">AVANCE GENERAL DE FABRICACIÓN</span><strong>{{ overallProgress() }}%</strong></div>
+    </div>
+    <app-progress-bar [value]="overallProgress()" label="Avance general" />
+
+    @if (activities().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">ACTIVIDADES DE FABRICACIÓN</span>
+          <span class="folio-label">{{ activities().length }} ACTIVIDADES</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Actividades de fabricación con responsable, estado y avance</caption>
+            <thead>
+            <tr>
+              <th scope="col">ETAPA</th>
+              <th scope="col">RESPONSABLE</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">AVANCE</th>
+              <th scope="col">FECHA OBJETIVO</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (a of activities(); track a.id) {
+                <tr>
+                  <td><strong>{{ a.stage }}</strong><br /><small>{{ a.description }}</small></td>
+                  <td>{{ a.owner }}</td>
+                  <td><app-stamp [copperText]="a.status === 'EN PROCESO'">{{ a.status }}</app-stamp></td>
+                  <td><app-progress-bar [value]="a.progress" /></td>
+                  <td>{{ a.targetDate | date: 'd MMM y' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay actividades de fabricación registradas para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

@@ -1,1 +1,48 @@
-<p>programacion works!</p>
+<!-- programacion.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">PR</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO III / SOFTWARE DE CONTROL</p>
+        <h1>Programación</h1>
+        <p class="subheading">{{ projectId() }} · Seguimiento de entregables, sin ejecución de PLC ni conexión a hardware</p>
+      </div>
+    </div>
+
+    @if (entries().length > 0) {
+      @for (e of entries(); track e.id) {
+        <div class="ledger-wrap">
+          <div class="ledger-top">
+            <span class="folio-label">{{ e.controller }} · {{ e.programVersion }}</span>
+            <app-stamp [copperText]="e.status === 'APROBADO'">{{ e.status }}</app-stamp>
+          </div>
+
+          <div class="spec-strip">
+            <div><span class="folio-label">RESPONSABLE</span><strong>{{ e.owner }}</strong></div>
+            <div><span class="folio-label">FECHA DE REVISIÓN</span><strong>{{ e.reviewDate | date: 'd MMM y' }}</strong></div>
+            <div><span class="folio-label">HITOS COMPLETOS</span><strong>{{ completedMilestones(e) }} / {{ e.milestones.length }}</strong></div>
+          </div>
+
+          <ul class="milestone-list">
+            @for (m of e.milestones; track m.label) {
+              <li [class.is-done]="m.done">
+                <span class="milestone-check" [attr.aria-hidden]="true">{{ m.done ? '✓' : '○' }}</span>
+                <span>{{ m.label }}</span>
+                <span class="sr-only">{{ m.done ? 'Completado' : 'Pendiente' }}</span>
+              </li>
+            }
+          </ul>
+
+          @if (e.blockers) {
+            <div class="kraft-note"><span>BLOQUEO:</span> {{ e.blockers }}</div>
+          }
+        </div>
+      }
+    } @else {
+      <div class="empty-state">
+        <p>No hay entregables de programación registrados para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

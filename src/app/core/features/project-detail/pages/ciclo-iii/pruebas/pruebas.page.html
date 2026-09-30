@@ -1,1 +1,61 @@
-<p>pruebas works!</p>
+<!-- pruebas.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">PB</div>
+      <div>
+        <p class="eyebrow copper-text">CICLO III / VALIDACIÓN</p>
+        <h1>Pruebas</h1>
+        <p class="subheading">{{ projectId() }} · Casos de prueba en sitio, sin telemetría ni captura automática</p>
+      </div>
+    </div>
+
+    <div class="spec-strip">
+      <div><span class="folio-label">APROBADAS</span><strong>{{ approvedCount() }} / {{ tests().length }}</strong></div>
+      <div><span class="folio-label">PENDIENTES</span><strong>{{ pendingCount() }}</strong></div>
+    </div>
+
+    @if (tests().length > 0) {
+      <div class="ledger-wrap">
+        <div class="ledger-top">
+          <span class="folio-label">CASOS DE PRUEBA</span>
+          <span class="folio-label">{{ tests().length }} CASOS</span>
+        </div>
+        <div class="table-scroll">
+          <table class="ledger">
+            <caption class="sr-only">Casos de prueba con resultado, responsable y fecha</caption>
+            <thead>
+            <tr>
+              <th scope="col">PROTOCOLO</th>
+              <th scope="col">RESPONSABLE</th>
+              <th scope="col">RESULTADO</th>
+              <th scope="col">FECHA</th>
+              <th scope="col">EVIDENCIA</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (t of tests(); track t.id) {
+                <tr>
+                  <td>
+                    <strong>{{ t.protocol }}</strong>
+                    @if (t.notes) {
+                      <div class="kraft-note"><span>NOTA:</span> {{ t.notes }}</div>
+                    }
+                  </td>
+                  <td>{{ t.owner }}</td>
+                  <td><app-stamp [copperText]="t.result === 'FALLIDA'">{{ t.result }}</app-stamp></td>
+                  <td>{{ t.date | date: 'd MMM y' }}</td>
+                  <td>{{ t.evidenceRef || 'SIN EVIDENCIA CARGADA' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay casos de prueba registrados para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

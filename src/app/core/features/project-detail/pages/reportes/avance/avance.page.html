@@ -1,1 +1,52 @@
-<p>avance works!</p>
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">AV</div>
+      <div>
+        <p class="eyebrow copper-text">REPORTES & CONTROL</p>
+        <h1>Avance del Proyecto</h1>
+        <p class="subheading">{{ projectId() }} · Consolidado de mano de obra, producción e instalación</p>
+      </div>
+    </div>
+
+    @if (report(); as r) {
+      <div class="spec-strip">
+        <div><span class="folio-label">AVANCE GENERAL</span><strong>{{ r.overallProgress }}%</strong></div>
+      </div>
+      <app-progress-bar [value]="r.overallProgress" label="Avance general del proyecto" />
+
+      <div class="ledger-wrap">
+        <div class="ledger-top"><span class="folio-label">AVANCE POR CICLO</span></div>
+        <div class="cycle-progress-list">
+          @for (c of r.cycles; track c.cycle) {
+            <div class="cycle-progress-row">
+              <span class="mono">{{ c.cycle }}</span>
+              <app-progress-bar [value]="c.progress" />
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (r.milestones.length > 0) {
+        <div class="ledger-wrap">
+          <div class="ledger-top"><span class="folio-label">HITOS TÉCNICOS</span></div>
+          <ul class="milestone-list">
+            @for (m of r.milestones; track m.label) {
+              <li [class.is-done]="m.done">
+                <span class="milestone-check" aria-hidden="true">{{ m.done ? '✓' : '○' }}</span>
+                <span>{{ m.label }}</span>
+                <span class="sr-only">{{ m.done ? 'Completado' : 'Pendiente' }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <app-blockers-panel [items]="r.blockers" />
+    } @else {
+      <div class="empty-state">
+        <p>No hay datos de avance disponibles para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>

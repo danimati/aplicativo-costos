@@ -1,1 +1,34 @@
-<p>indicadores works!</p>
+<!-- indicadores.page.html -->
+<div class="page-grid">
+  <main class="document-main">
+    <div class="page-heading">
+      <div class="section-mark">ID</div>
+      <div>
+        <p class="eyebrow copper-text">REPORTES & CONTROL</p>
+        <h1>Indicadores</h1>
+        <p class="subheading">{{ projectId() }} · Derivados de datos mock; cada indicador declara su fuente</p>
+      </div>
+    </div>
+
+    @if (indicators().length > 0) {
+      <div class="indicator-grid">
+        @for (i of indicators(); track i.id) {
+          <div class="indicator-card">
+            <div class="indicator-card-top">
+              <span class="folio-label">{{ i.label }}</span>
+              @if (i.isDemo) {
+                <span class="demo-tag">DEMO</span>
+              }
+            </div>
+            <strong class="indicator-value">{{ i.value }}</strong>
+            <small class="indicator-source">FUENTE: {{ i.source }}</small>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No hay indicadores disponibles para este proyecto.</p>
+      </div>
+    }
+  </main>
+</div>
