@@ -1,0 +1,23 @@
+@startuml seq-cu09
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-09 Seguir compras
+actor "Planeación" as U
+boundary "ComprasPage" as P
+control "ProcurementApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+U -> P : Abre hoja 05 COMPRAS
+P -> S : getByProject(projectId)
+S -> API : GET /api/projects/{id}/procurement
+API -> DB : SELECT procurement_items
+API --> S : 200 ProcurementItem[]
+P -> P : precio neto = unitPrice × (1 − discountPercent/100)\nvalor solicitado = Σ quantity × neto\nvalor recibido = Σ receivedQuantity × neto
+P --> U : Ítems con proveedor, cotización, descuento,\nestado y totales solicitado / recibido
+opt Actualizar estado de una compra (API)
+  U -> API : PATCH /api/projects/{id}/procurement/{itemId}\n{status, receivedQuantity}
+  API -> DB : UPDATE
+  API --> U : 200 ProcurementItem
+end
+@enduml

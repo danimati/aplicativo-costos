@@ -1,0 +1,24 @@
+@startuml seq-cu19
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-19 Operar el despliegue
+actor Administrador as U
+participant "Makefile\n(despliegue/)" as M
+participant "Docker Compose" as C
+participant "backend" as B
+database "db (PostgreSQL)" as DB
+U -> M : make up
+M -> C : docker compose up -d --build
+C -> DB : Inicia y espera healthcheck (pg_isready)
+C -> B : Inicia: python -m app.seed (crea tablas,\nsiembra si vacía) → uvicorn
+C -> C : Inicia frontend (Nginx) cuando backend está sano
+U -> M : make backup
+M -> DB : pg_dump → backups/AAAAMMDD-HHMMSS.sql
+U -> M : make restore f=backups/x.sql
+M -> DB : psql < archivo
+opt Reiniciar datos de ejemplo
+  U -> M : make reset-db
+  M -> B : python -m app.seed --reset
+end
+@enduml

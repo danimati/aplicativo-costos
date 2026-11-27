@@ -1,0 +1,30 @@
+@startuml seq-cu18
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-18 Administrar proyectos
+actor Administrador as U
+participant "Cliente API\n(Swagger /docs)" as C
+participant "FastAPI" as API
+database "BD" as DB
+alt Crear
+  U -> C : Datos del proyecto, etapas y navTemplate
+  C -> API : POST /api/projects
+  API -> DB : ¿Existe id?
+  alt Duplicado
+    API --> C : 409 "Proyecto {id} ya existe"
+  else Nuevo
+    API -> DB : INSERT projects + project_stages
+    API --> C : 201 Project
+  end
+else Editar
+  C -> API : PATCH /api/projects/{id} {status, progress, navTemplate…}
+  API -> DB : UPDATE
+  API --> C : 200 Project
+else Eliminar
+  C -> API : DELETE /api/projects/{id}
+  API -> DB : DELETE (cascada a colecciones del proyecto)
+  API --> C : 204
+end
+note over U, DB : El botón "+ NUEVO PROYECTO" de la UI aún no está conectado.
+@enduml

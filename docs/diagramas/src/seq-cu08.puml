@@ -1,0 +1,22 @@
+@startuml seq-cu08
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-08 Consultar plantilla base aplicada
+actor "Planeación" as U
+boundary "PlantillasPage" as P
+control "ProjectTemplateApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+U -> P : Abre hoja 04 PLANTILLAS BASE
+P -> S : getByProject(projectId)
+S -> API : GET /api/projects/{id}/template
+API -> DB : SELECT project_templates WHERE project_id
+alt Tiene plantilla
+  API --> S : 200 ProjectTemplateSnapshot
+  P --> U : Nombre, versión, autor, estado y bloques heredados\n(marcando los modificados por el proyecto)
+else Sin plantilla
+  API --> S : 200 null
+  P --> U : Estado vacío
+end
+@enduml

@@ -1,0 +1,29 @@
+@startuml seq-cu03
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-03 Navegar expediente de proyecto
+actor Usuario as U
+boundary "ProjectDetailComponent" as D
+control "NavStateService" as N
+control "ProjectApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+U -> D : Abre /app/proyectos/{id}
+D -> S : getProjectById(id)
+S -> API : GET /api/projects/{id}
+API -> DB : SELECT project WHERE id
+alt Proyecto existe
+  API --> S : 200 Project (con navTemplate)
+  S --> D : Project
+  D -> N : Cargar navTemplate (ciclos y hojas)
+  N --> U : Menú de ciclos: CICLO I, II, III,\nREPORTES, CONFIGURACIÓN
+  U -> N : Selecciona ciclo y hoja
+  N -> D : navigateLeaf(leafId, route)
+  D --> U : Página hija /app/proyectos/{id}/{route}
+else No existe
+  API --> S : 404 "Proyecto {id} no existe"
+  S --> D : error
+  D --> U : Expediente sin datos
+end
+@enduml

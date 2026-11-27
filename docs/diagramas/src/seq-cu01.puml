@@ -1,0 +1,17 @@
+@startuml seq-cu01
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-01 Iniciar sesión
+actor Usuario as U
+boundary "LoginComponent" as L
+control "AuthService" as A
+participant "Router" as R
+U -> L : Ingresa correo y contraseña,\npulsa INGRESAR AL SISTEMA
+L -> L : error.set(false)
+L -> A : login()
+A -> A : loggedInSubject.next(true)
+note right of A : Versión actual: autenticación simulada.\nNo valida credenciales ni consulta el backend.
+L -> R : navigateByUrl('/app/proyectos')
+R --> U : Muestra el portafolio (CU-02)
+@enduml

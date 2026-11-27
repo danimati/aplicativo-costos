@@ -1,0 +1,73 @@
+@startuml componentes
+!include _estilo.iuml
+title Diagrama de componentes
+
+package "Frontend — Angular 21 (SPA)" {
+  component "LoginComponent" as Login
+  component "ShellComponent" as Shell
+  component "TopNavComponent" as TopNav
+  component "ProjectHubComponent\n+ MonthCalendar + NotesModal" as Hub
+  component "ProjectDetailComponent" as Detail
+  package "Páginas por ciclo" {
+    component "Ciclo I\nDocumentación · BOM\nMano de obra · Plantillas" as C1
+    component "Ciclo II\nCompras · Recepción\nFabricación · Ensamble" as C2
+    component "Ciclo III\nInstalación · Cableado\nProgramación · Pruebas" as C3
+    component "Reportes\nAvance · Costos\nHoras · Indicadores" as Rep
+  }
+  package "Compartidos" {
+    component "BalancePanel · Stamp · ProgressBar\nSlidePanel · BlockersPanel · MarkdownPipe" as Shared
+  }
+  package "Servicios" {
+    component "Contratos abstractos\n(ProjectService, BomService, …)" as Abs
+    component "Implementaciones *ApiService\n(HttpClient)" as Api
+    component "Implementaciones *MockService\n(datos en memoria)" as Mock
+    component "Estado UI\nNavState · UiState · ProjectNotes · Auth" as State
+  }
+  component "app.config.ts\n(environment.useMock)" as Config
+}
+
+package "Backend — FastAPI" {
+  component "routers/api.py" as Router
+  component "crud.py\n(fábrica CRUD)" as Crud
+  component "reports.py" as Reports
+  component "schemas.py\n(Pydantic camelCase)" as Schemas
+  component "models.py\n(SQLAlchemy ORM)" as Models
+  component "seed.py" as Seed
+  component "db.py" as Db
+}
+database "SQLite (dev)\nPostgreSQL (prod)" as DB
+
+interface "HTTP /api (JSON)" as HTTP
+
+Shell --> TopNav
+Shell --> Hub
+Shell --> Detail
+Detail --> C1
+Detail --> C2
+Detail --> C3
+Detail --> Rep
+C1 ..> Shared
+Rep ..> Shared
+Hub ..> Abs
+C1 ..> Abs
+C2 ..> Abs
+C3 ..> Abs
+Rep ..> Abs
+Detail ..> State
+TopNav ..> State
+Login ..> State
+Config ..> Api : provee si useMock = false
+Config ..> Mock : provee si useMock = true
+Api ..|> Abs
+Mock ..|> Abs
+Api --> HTTP
+HTTP --> Router
+Router --> Crud
+Router --> Reports
+Router ..> Schemas
+Crud --> Models
+Reports --> Models
+Seed --> Models
+Models --> Db
+Db --> DB
+@enduml

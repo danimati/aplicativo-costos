@@ -1,5 +1,19 @@
 # CostosIndustrial
 
+## Estructura
+
+| Carpeta | Contenido |
+|---|---|
+| `src/` | Front Angular 21 |
+| [`backend/`](backend/README.md) | API FastAPI + SQLAlchemy (SQLite en local, PostgreSQL en Docker) |
+| [`despliegue/`](despliegue/README.md) | Docker Compose, Dockerfiles, Nginx y Makefile |
+| [`docs/`](docs/README.md) | Documentación: casos de uso, diagramas UML, manuales de instalación, usuario y funcionalidad |
+
+Arranque rápido con Docker: `cd despliegue && make up` → http://localhost:8080
+
+Desarrollo local: `npm start` usa el API en `localhost:8000` (proxy `proxy.conf.json`);
+`npx ng serve --configuration mock` trabaja con datos mock, sin backend.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
 
 ## Development server

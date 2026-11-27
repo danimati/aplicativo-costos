@@ -1,0 +1,25 @@
+@startuml seq-cu14
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-14 Generar reporte de costos
+actor "Analista financiero" as U
+boundary "CostosPage" as P
+control "ReportApiService" as S
+participant "FastAPI\nrouters/api.py" as API
+control "reports.costos()" as R
+database "BD" as DB
+U -> P : Abre REPORTES › 14 COSTOS
+P -> S : getCostos(projectId)
+S -> API : GET /api/projects/{id}/reports/costos
+API -> R : costos(db, id)
+R -> DB : SELECT bom_materials
+R -> R : materiales = Σ parse_money(subtotal)
+R -> DB : SELECT labor_stages
+R -> R : manoObra = Σ horas × valorHora
+R -> DB : SELECT project_cost_inputs
+R -> R : total = materiales + manoObra + fijos + variables + indirectos\nganancia = total × margen/100\nvalorFinal = total + ganancia
+R --> API : ProjectCostReport (actualCostAvailable = false)
+API --> S : 200 JSON
+P --> U : Composición por rubro con % del total,\ncosto total, margen, ganancia y valor final
+@enduml

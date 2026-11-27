@@ -1,0 +1,166 @@
+@startuml modelo-datos
+!include _estilo.iuml
+left to right direction
+title Modelo de datos (tablas)
+hide circle
+hide empty methods
+skinparam linetype ortho
+
+entity projects {
+  * pk : int <<PK>>
+  --
+  * id : varchar <<UK>>
+  name, status, family, owner : varchar
+  cut_date, progress : varchar
+  start_date, end_date : varchar
+  nav_template : json
+}
+entity project_stages {
+  * pk : int <<PK>>
+  * project_id : varchar <<FK>>
+  id : varchar  (UK con project_id)
+  name, status, owner, due_date
+  progress : float
+}
+entity bom_materials {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id (UK con project_id)
+  description, supplier, calc_type
+  quantity, unit_price, subtotal, note
+}
+entity labor_stages {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  name, owner, status, notes
+  estimated_hours, hourly_rate : float
+}
+entity project_cost_inputs {
+  * project_id <<PK, FK>>
+  --
+  fixed_costs, variable_costs : float
+  indirect_costs, margin_percent : float
+}
+entity project_templates {
+  * project_id <<PK, FK>>
+  --
+  template_name, version, family
+  author, applied_at, status
+  blocks : json
+}
+entity procurement_items {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  material_id, material_description
+  supplier, quotation_ref, status
+  unit_price, discount_percent
+  quantity, received_quantity
+  expected_date, owner
+}
+entity reception_items {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  material_id, lot_ref, status
+  requested_quantity, received_quantity
+  received_date, incident_note, owner
+}
+entity production_activities {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  stage, description, owner
+  status, progress, target_date
+}
+entity assembly_units {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  name, status, owner, progress
+  depends_on : json
+}
+entity installation_activities {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  activity, location, owner, status
+  progress, target_date
+  prerequisite, notes
+}
+entity wiring_circuits {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  circuit_ref, origin, destination
+  gauge, quantity, status, qc_pending
+}
+entity programming_entries {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  controller, program_version, owner
+  status, review_date, blockers
+  milestones : json
+}
+entity test_cases {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  protocol, owner, result, date
+  evidence_ref, notes
+}
+entity project_notes {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  date, content : text
+}
+entity project_documents {
+  * pk <<PK>>
+  * project_id <<FK>>
+  id <<UK>>
+  title, kind, content : text
+  file_name, file_url, mime_type
+  updated_at
+}
+entity notifications {
+  * pk <<PK>>
+  id <<UK>>
+  date, message, read
+  project_id (sin FK)
+}
+entity calendar_events {
+  * pk <<PK>>
+  day, title, project
+}
+entity catalog_materials {
+  * pk <<PK>>
+  code <<UK>>
+  description, supplier, family
+  base_cost, status
+}
+entity catalog_providers {
+  * pk <<PK>>
+  code <<UK>>
+  supplier, specialty, location
+  catalog_count, status
+}
+
+projects ||--o{ project_stages
+projects ||--o{ bom_materials
+projects ||--o{ labor_stages
+projects ||--o| project_cost_inputs
+projects ||--o| project_templates
+projects ||--o{ procurement_items
+projects ||--o{ reception_items
+projects ||--o{ production_activities
+projects ||--o{ assembly_units
+projects ||--o{ installation_activities
+projects ||--o{ wiring_circuits
+projects ||--o{ programming_entries
+projects ||--o{ test_cases
+projects ||--o{ project_notes
+projects ||--o{ project_documents
+@enduml

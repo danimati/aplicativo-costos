@@ -1,0 +1,29 @@
+@startuml seq-cu16
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-16 Consultar avance e indicadores
+actor Usuario as U
+boundary "AvancePage /\nIndicadoresPage" as P
+control "ReportApiService" as S
+participant "FastAPI" as API
+control "reports" as R
+database "BD" as DB
+U -> P : Abre REPORTES › 13 AVANCE
+P -> S : getAvance(id)
+S -> API : GET /api/projects/{id}/reports/avance
+API -> R : avance()
+R -> DB : labor_stages, production_activities,\nassembly_units, installation_activities, programming_entries
+R -> R : Ciclo I = prom(estado etapas: 100/50/0)\nCiclo II = prom(% fabricación + ensamble)\nCiclo III = prom(% instalación)\ngeneral = prom(ciclos)
+R --> API : ProjectProgressReport (+ hitos y bloqueos)
+API --> P : 200
+U -> P : Abre REPORTES › 16 INDICADORES
+P -> S : getIndicadores(id)
+S -> API : GET /api/projects/{id}/reports/indicadores
+API -> R : indicadores()
+R -> R : avance() + costos() + horas()
+R -> DB : procurement_items, test_cases
+R --> API : 5 indicadores (avance, costo total, horas,\ncompras pendientes, pruebas aprobadas)
+API --> P : 200 ProjectIndicator[]
+P --> U : Tarjetas de indicadores
+@enduml

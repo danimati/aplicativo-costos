@@ -1,0 +1,84 @@
+@startuml casos-de-uso
+!include _estilo.iuml
+title Diagrama de casos de uso — Costos Industrial
+skinparam actorStyle awesome
+skinparam nodesep 25
+skinparam ranksep 60
+
+actor "Usuario" as U
+actor "Planeación /\nJefe de proyecto" as P
+actor "Analista\nfinanciero" as F
+actor "Administrador\ndel sistema" as A
+U <|-- P
+U <|-- F
+
+rectangle "Costos Industrial" {
+  package "Acceso y portafolio" as PK1 {
+    usecase "CU-01 Iniciar sesión" as CU01
+    usecase "CU-02 Consultar portafolio" as CU02
+    usecase "CU-03 Navegar expediente" as CU03
+    usecase "CU-17 Gestionar notificaciones" as CU17
+  }
+  package "Documentación y BOM" as PK2 {
+    usecase "CU-04 Gestionar notas" as CU04
+    usecase "CU-05 Gestionar documentos" as CU05
+    usecase "CU-06 Consultar BOM" as CU06
+    usecase "CU-16 Consultar avance\ne indicadores" as CU16
+  }
+  package "Planeación y ejecución (Ciclos I–III)" as PK3 {
+    usecase "CU-07 Gestionar etapas\nde mano de obra" as CU07
+    usecase "CU-08 Consultar plantilla" as CU08
+    usecase "CU-09 Seguir compras" as CU09
+    usecase "CU-10 Registrar recepción" as CU10
+    usecase "CU-11 Seguir fabricación\ny ensamble" as CU11
+    usecase "CU-12 Seguir instalación\ny puesta en marcha" as CU12
+  }
+  package "Costos y reportes" as PK4 {
+    usecase "CU-13 Parametrizar costos" as CU13
+    usecase "CU-14 Reporte de costos" as CU14
+    usecase "CU-15 Reporte de horas" as CU15
+  }
+  package "Administración" as PK5 {
+    usecase "CU-18 Administrar proyectos" as CU18
+    usecase "CU-19 Operar el despliegue" as CU19
+  }
+}
+
+U --> CU01
+U --> CU02
+U --> CU03
+U --> CU17
+U --> CU04
+U --> CU05
+U --> CU06
+U --> CU16
+P --> CU07
+P --> CU08
+P --> CU09
+P --> CU10
+P --> CU11
+P --> CU12
+F --> CU13
+F --> CU14
+F --> CU15
+A --> CU18
+A --> CU19
+
+' ── layout: cuadrícula con enlaces ocultos
+CU01 -[hidden]down- CU17
+CU02 -[hidden]down- CU03
+CU17 -[hidden]down- CU04
+CU03 -[hidden]down- CU05
+CU04 -[hidden]down- CU06
+CU05 -[hidden]down- CU16
+CU08 -[hidden]down- CU11
+CU09 -[hidden]down- CU12
+CU10 -[hidden]down- CU07
+CU13 -[hidden]down- CU15
+CU14 -[hidden]down- CU18
+CU15 -[hidden]down- CU19
+
+CU03 .> CU02 : <<include>>
+CU02 .> CU01 : <<include>>
+CU14 .> CU13 : <<include>>
+@enduml

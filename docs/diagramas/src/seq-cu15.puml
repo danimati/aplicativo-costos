@@ -1,0 +1,21 @@
+@startuml seq-cu15
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-15 Generar reporte de horas
+actor "Analista financiero" as U
+boundary "HorasPage" as P
+control "ReportApiService" as S
+participant "FastAPI" as API
+control "reports.horas()" as R
+database "BD" as DB
+U -> P : Abre REPORTES › 15 HORAS
+P -> S : getHoras(projectId)
+S -> API : GET /api/projects/{id}/reports/horas
+API -> R : horas(db, id)
+R -> DB : SELECT labor_stages
+R -> R : por etapa: costo = horas × valorHora\ntotalHoras = Σ horas, totalCosto = Σ costo
+R --> API : ProjectHoursReport\n(capacityStatus = PENDIENTE_DE_CARACTERIZACION)
+API --> S : 200 JSON
+P --> U : Tabla por etapa y totales del proyecto
+@enduml
