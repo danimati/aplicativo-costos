@@ -1,0 +1,98 @@
+@startuml clases-backend
+!include _estilo.iuml
+title Clases y módulos del backend (FastAPI)
+hide empty fields
+
+package "app.db" {
+  class Base <<DeclarativeBase>>
+  class "get_db()" as GetDb <<dependency>> {
+    yield Session
+  }
+}
+
+package "app.models (ORM)" {
+  class Project <<entity>>
+  class ProjectStage <<entity>>
+  class LaborStage <<entity>>
+  class BomMaterial <<entity>>
+  class "… 15 entidades más" as Others <<entity>>
+}
+Base <|-- Project
+Base <|-- ProjectStage
+Base <|-- LaborStage
+Base <|-- BomMaterial
+Base <|-- Others
+Project "1" *-- "0..*" ProjectStage : stages
+
+package "app.schemas (Pydantic)" {
+  class CamelModel {
+    model_config: alias_generator=to_camel,\npopulate_by_name, from_attributes
+  }
+  class "Project / LaborStage / …" as Sch
+  class "create_schema(model)" as CS <<factory>> {
+    sin projectId, id opcional
+  }
+  class "update_schema(model)" as US <<factory>> {
+    todos los campos opcionales
+  }
+  CamelModel <|-- Sch
+}
+
+package "app.crud" {
+  class "project_collection(router, path, orm, schema, prefix, tag)" as PC <<factory>> {
+    GET    /projects/{id}/{path}
+    POST   /projects/{id}/{path}
+    PATCH  /projects/{id}/{path}/{itemId}
+    DELETE /projects/{id}/{path}/{itemId}
+  }
+  class Helpers {
+    +ensure_project(db, id): Project
+    +list_by_project(db, orm, id)
+    +new_id(prefix): str
+    +apply_changes(obj, changes)
+  }
+}
+PC ..> CS
+PC ..> US
+PC ..> Helpers
+
+package "app.reports" {
+  class Reports {
+    +avance(db, id): ProjectProgressReport
+    +costos(db, id): ProjectCostReport
+    +horas(db, id): ProjectHoursReport
+    +indicadores(db, id): list[ProjectIndicator]
+    +parse_money(text): float
+  }
+}
+
+package "app.routers.api" {
+  class router <<APIRouter>> {
+    proyectos, calendario
+    notas, documentos
+    cost-inputs, template
+    reportes, catálogo, notificaciones
+  }
+}
+package "app.main" {
+  class app <<FastAPI>> {
+    lifespan → init_db()
+    CORSMiddleware
+    include_router(prefix="/api")
+  }
+}
+package "app.seed" {
+  class Seed {
+    +init_db(reset=False)
+    +seed(db)
+  }
+}
+app --> router
+app ..> Seed
+router ..> PC : registra 10 colecciones
+router ..> Reports
+router ..> Sch
+router ..> GetDb
+Reports ..> Helpers
+Helpers ..> Project
+@enduml

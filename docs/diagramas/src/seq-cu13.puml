@@ -1,0 +1,23 @@
+@startuml seq-cu13
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-13 Parametrizar costos del proyecto
+actor "Analista financiero" as U
+participant "Cliente API\n(Swagger /docs)" as C
+participant "FastAPI" as API
+database "BD" as DB
+U -> C : Consulta parámetros actuales
+C -> API : GET /api/projects/{id}/cost-inputs
+API -> DB : SELECT project_cost_inputs
+alt Existe registro
+  API --> C : 200 {fixedCosts, variableCosts, indirectCosts, marginPercent}
+else Sin registro
+  API --> C : 200 valores en 0
+end
+U -> C : Ajusta costos fijos asignados, variables,\nindirectos y % de ganancia
+C -> API : PUT /api/projects/{id}/cost-inputs
+API -> DB : MERGE (insert o update por project_id)
+API --> C : 200 ProjectCostInputs
+note over U, DB : El siguiente reporte de costos (CU-14) usa los nuevos valores.\nLa UI muestra estos valores en REPORTES › COSTOS; la edición se hace vía API.
+@enduml

@@ -1,0 +1,41 @@
+@startuml seq-cu04
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-04 Gestionar notas del proyecto
+actor Usuario as U
+boundary "DocumentacionPage /\nProjectHub + NotesModal" as P
+control "ProjectNotesService (UI)" as UI
+control "ProjectNoteApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+P -> UI : loadNotes(projectId)
+UI -> S : getNotes(projectId)
+S -> API : GET /api/projects/{id}/notes
+API -> DB : SELECT project_notes
+API --> S : 200 ProjectNote[]
+U -> P : + NOTA / abre nota existente
+P -> UI : openNoteModal(fecha, projectId)
+U -> UI : Escribe contenido Markdown, ajusta fecha, GUARDAR
+alt Contenido vacío
+  UI -> UI : deleteActiveNote()
+else Nota nueva
+  UI -> S : createNote({projectId, date, content})
+  S -> API : POST /api/projects/{id}/notes
+  API -> DB : INSERT project_notes (id = n + uuid)
+  API --> S : 201 ProjectNote
+else Nota existente
+  UI -> S : updateNote(id, {date, content})
+  S -> API : PATCH /api/notes/{noteId}
+  API -> DB : UPDATE project_notes
+  API --> S : 200 ProjectNote
+end
+opt Eliminar
+  U -> UI : ELIMINAR
+  UI -> S : deleteNote(id)
+  S -> API : DELETE /api/notes/{noteId}
+  API -> DB : DELETE
+  API --> S : 204
+end
+UI --> U : Lista de notas actualizada, modal cerrado
+@enduml

@@ -1,0 +1,32 @@
+@startuml seq-cu12
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-12 Seguir instalación y puesta en marcha
+actor "Planeación" as U
+boundary "Instalacion / Cableado /\nProgramacion / Pruebas Page" as P
+control "InstallationApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+U -> P : Abre una hoja del CICLO III
+alt 09 INSTALACIÓN
+  P -> S : getInstalacion(id)
+  S -> API : GET /api/projects/{id}/instalacion
+else 10 CABLEADO
+  P -> S : getCableado(id)
+  S -> API : GET /api/projects/{id}/cableado
+else 11 PROGRAMACIÓN
+  P -> S : getProgramacion(id)
+  S -> API : GET /api/projects/{id}/programacion
+else 12 PRUEBAS
+  P -> S : getPruebas(id)
+  S -> API : GET /api/projects/{id}/pruebas
+end
+API -> DB : SELECT tabla correspondiente
+API --> S : 200 lista
+P --> U : Actividades / circuitos / hitos / protocolos\ncon estado, responsable y fechas
+opt Registrar resultado de prueba (API)
+  U -> API : PATCH /api/projects/{id}/pruebas/{itemId}\n{result: APROBADA, evidenceRef}
+  API -> DB : UPDATE test_cases
+end
+@enduml

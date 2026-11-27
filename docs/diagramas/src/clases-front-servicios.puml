@@ -1,0 +1,114 @@
+@startuml clases-front-servicios
+!include _estilo.iuml
+left to right direction
+title Clases de servicios del frontend — patrón contrato / API / mock
+hide empty fields
+
+abstract class ProjectService {
+  +getProjects(): Observable<Project[]>
+  +getProjectById(id): Observable<Project | undefined>
+  +getCalendarEvents(): Observable<CalendarEvent[]>
+}
+class ProjectApiService {
+  -http: HttpClient
+  -base = environment.apiUrl + '/projects'
+}
+class ProjectMockService {
+  -MOCK_PROJECTS: Project[]
+}
+ProjectApiService ..|> ProjectService
+ProjectMockService ..|> ProjectService
+
+abstract class BomService {
+  +getMaterials(projectId)
+}
+abstract class CatalogService {
+  +getMaterials()
+  +getProviders()
+}
+abstract class LaborService {
+  +getByProject(projectId)
+}
+abstract class ProjectTemplateService {
+  +getByProject(projectId)
+}
+abstract class ProjectCostService {
+  +getByProject(projectId)
+}
+abstract class ProcurementService {
+  +getByProject(projectId)
+}
+abstract class ReceptionService {
+  +getByProject(projectId)
+}
+abstract class ProductionService {
+  +getFabricacion(projectId)
+  +getEnsamble(projectId)
+}
+abstract class InstallationService {
+  +getInstalacion(projectId)
+  +getCableado(projectId)
+  +getProgramacion(projectId)
+  +getPruebas(projectId)
+}
+abstract class ReportService {
+  +getAvance(projectId)
+  +getCostos(projectId)
+  +getHoras(projectId)
+  +getIndicadores(projectId)
+}
+abstract class ProjectNoteService {
+  +getNotes(projectId)
+  +createNote(note)
+  +updateNote(id, changes)
+  +deleteNote(id)
+}
+abstract class ProjectDocumentService {
+  +getDocuments(projectId)
+  +createDocument(doc)
+  +updateDocument(id, changes)
+  +deleteDocument(id)
+}
+abstract class NotificationService {
+  +getNotifications()
+  +markAsRead(id)
+  +markAllAsRead()
+}
+
+note "Cada contrato tiene dos implementaciones:\n• XxxApiService → HttpClient contra /api\n• XxxMockService → of(datos).pipe(delay(150))\napp.config.ts elige con environment.useMock" as N1
+
+class ProjectNotesService <<UI state>> {
+  +notes: Signal<ProjectNote[]>
+  +isModalOpen: Signal<boolean>
+  +loadNotes(projectId)
+  +openNoteModal(date, projectId)
+  +saveNote()
+  +deleteActiveNote()
+}
+class NavStateService <<UI state>> {
+  +setCycle(id)
+  +navigateLeaf(leafId, route)
+  +toggleMobileMenu(open)
+}
+class AuthService {
+  +isLoggedIn$: Observable<boolean>
+  +user$: Observable<User>
+  +login()
+  +logout()
+}
+ProjectNotesService --> ProjectNoteService
+
+class DocumentacionPage
+class BomPage
+class CostosPage
+class ProjectHubComponent
+class ProjectDetailComponent
+DocumentacionPage --> ProjectDocumentService
+DocumentacionPage --> ProjectNotesService
+BomPage --> BomService
+CostosPage --> ReportService
+ProjectHubComponent --> ProjectService
+ProjectHubComponent --> ProjectNotesService
+ProjectDetailComponent --> ProjectService
+ProjectDetailComponent --> NavStateService
+@enduml

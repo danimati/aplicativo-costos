@@ -1,0 +1,23 @@
+@startuml seq-cu10
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-10 Registrar recepción de materiales
+actor "Planeación /\nalmacén" as U
+boundary "RecepcionPage" as P
+control "ReceptionApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+U -> P : Abre hoja 06 RECEPCIÓN
+P -> S : getByProject(projectId)
+S -> API : GET /api/projects/{id}/reception
+API -> DB : SELECT reception_items
+API --> S : 200 ReceptionItem[]
+P --> U : Lotes, cantidad solicitada vs recibida,\nfecha, estado e incidencias
+opt Registrar llegada (API)
+  U -> API : PATCH /api/projects/{id}/reception/{itemId}\n{receivedQuantity, receivedDate, status, incidentNote}
+  API -> API : status ∈ {PENDIENTE, CONFORME, INCIDENCIA, RECHAZADO}
+  API -> DB : UPDATE
+  API --> U : 200 ReceptionItem
+end
+@enduml

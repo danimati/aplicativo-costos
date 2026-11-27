@@ -1,0 +1,36 @@
+@startuml estados
+!include _estilo.iuml
+title Estados de los elementos de seguimiento
+
+state "Compra (ProcurementStatus)" as Compra {
+  [*] --> PENDIENTE
+  PENDIENTE --> SOLICITADO : se pide cotización
+  SOLICITADO --> ORDENADO : se emite orden
+  ORDENADO --> PARCIAL : llega parte
+  ORDENADO --> COMPLETO : llega todo
+  PARCIAL --> COMPLETO : llega el resto
+  COMPLETO --> [*]
+}
+state "Recepción (ReceptionStatus)" as Recep {
+  state "PENDIENTE" as RP
+  [*] --> RP
+  RP --> CONFORME : cantidad y calidad OK
+  RP --> INCIDENCIA : faltante o novedad
+  RP --> RECHAZADO : no cumple
+  INCIDENCIA --> CONFORME : se resuelve
+  CONFORME --> [*]
+}
+state "Actividad de producción / instalación\n(ProductionStatus)" as Prod {
+  state "PENDIENTE" as PP
+  state "EN PROCESO" as PE
+  state "COMPLETADO" as PC
+  state "BLOQUEADO" as PB
+  [*] --> PP
+  PP --> PE
+  PE --> PC
+  PP --> PB : dependencia sin terminar
+  PE --> PB
+  PB --> PE : se libera
+  PC --> [*]
+}
+@enduml

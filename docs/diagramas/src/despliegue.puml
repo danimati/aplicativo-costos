@@ -1,0 +1,29 @@
+@startuml despliegue
+!include _estilo.iuml
+title Diagrama de despliegue (Docker Compose)
+
+node "Equipo del usuario" {
+  artifact "Navegador web" as Browser
+}
+
+node "Servidor Docker (proyecto compose «costos»)" {
+  node "frontend\n<<container>>\nnginx:1.27-alpine" as FE {
+    artifact "Build Angular\n/usr/share/nginx/html" as SPA
+    artifact "default.conf" as NG
+  }
+  node "backend\n<<container>>\npython:3.13-slim" as BE {
+    artifact "uvicorn app.main:app\n(WEB_CONCURRENCY workers)" as UV
+  }
+  node "db\n<<container>>\npostgres:17-alpine" as PG {
+    database "costos" as DBN
+  }
+  storage "volumen pgdata" as VOL
+}
+
+Browser --> FE : HTTP :8080 (HTTP_PORT)
+FE --> BE : /api, /docs, /openapi.json\nhttp://backend:8000
+BE --> PG : postgresql+psycopg://db:5432
+PG --> VOL
+note right of FE : Único puerto publicado.\nSPA con fallback a index.html,\ngzip y caché de assets.
+note right of PG : Sin puerto publicado.\nAcceso: make psql
+@enduml

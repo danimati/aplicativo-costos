@@ -1,0 +1,44 @@
+@startuml seq-cu05
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-05 Gestionar documentos del proyecto
+actor Usuario as U
+boundary "DocumentacionPage" as P
+control "ProjectDocumentApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+P -> S : getDocuments(projectId)
+S -> API : GET /api/projects/{id}/documents
+API --> S : 200 ProjectDocument[]
+P --> U : Lista de documentos
+alt Documento Markdown
+  U -> P : NUEVO / selecciona documento, edita título y contenido
+  U -> P : Alterna vista previa (Markdown renderizado y sanitizado)
+  U -> P : GUARDAR
+  alt Nuevo
+    P -> S : createDocument({projectId, title, content, kind:'markdown', updatedAt})
+    S -> API : POST /api/projects/{id}/documents
+    API -> DB : INSERT project_documents
+    API --> S : 201 ProjectDocument
+  else Existente
+    P -> S : updateDocument(id, {title, content, updatedAt})
+    S -> API : PATCH /api/documents/{docId}
+    API -> DB : UPDATE (updatedAt = ahora si no se envía)
+    API --> S : 200 ProjectDocument
+  end
+else Archivo (Word / Excel)
+  U -> P : Selecciona archivo
+  P -> P : URL.createObjectURL(file)
+  P -> S : createDocument({kind:'file', fileName, fileUrl, mimeType})
+  S -> API : POST /api/projects/{id}/documents
+  API --> S : 201
+  note right of P : Se guardan metadatos; el binario\nno se sube al servidor en esta versión.
+end
+opt Eliminar
+  U -> P : Ícono eliminar
+  P -> S : deleteDocument(id)
+  S -> API : DELETE /api/documents/{docId}
+  API --> S : 204
+end
+@enduml

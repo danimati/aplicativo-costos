@@ -91,3 +91,15 @@ def test_generic_collection_crud_and_validation(client):
     horas = client.get(f"/api/projects/{P}/reports/horas").json()
     assert horas["totalHours"] == 118 + 2
     assert client.delete(f"{url}/{new['id']}").status_code == 204
+
+
+def test_delete_project_cascades(client):
+    pid = "PRY-2024-076"
+    assert client.get(f"/api/projects/{pid}/labor-stages").json()
+    assert client.delete(f"/api/projects/{pid}").status_code == 204
+    assert client.get(f"/api/projects/{pid}").status_code == 404
+    from app.db import SessionLocal
+    from app import models
+    with SessionLocal() as db:
+        assert db.query(models.LaborStage).filter_by(project_id=pid).count() == 0
+        assert db.query(models.BomMaterial).filter_by(project_id=pid).count() == 0

@@ -1,0 +1,28 @@
+@startuml seq-cu07
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-07 Gestionar etapas de mano de obra
+actor "Planeación" as U
+boundary "ManoObraPage" as P
+control "LaborApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+U -> P : Abre hoja 03 MANO DE OBRA & ETAPAS
+P -> S : getByProject(projectId)
+S -> API : GET /api/projects/{id}/labor-stages
+API -> DB : SELECT labor_stages
+API --> S : 200 LaborStage[]
+P -> P : costo etapa = estimatedHours × hourlyRate\ntotal = Σ costos
+P --> U : Etapas, horas, valor hora, costo,\nresponsable y estado
+opt Alta / modificación de etapa (API)
+  U -> API : POST /api/projects/{id}/labor-stages\n{name, estimatedHours, hourlyRate, owner, status}
+  API -> API : Valida status ∈ {PENDIENTE, EN PROCESO, COMPLETADO}
+  alt Válido
+    API -> DB : INSERT (id = lb + uuid)
+    API --> U : 201 LaborStage
+  else Inválido
+    API --> U : 422 detalle de validación
+  end
+end
+@enduml

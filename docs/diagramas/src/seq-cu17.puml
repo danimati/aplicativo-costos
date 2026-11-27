@@ -1,0 +1,30 @@
+@startuml seq-cu17
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-17 Gestionar notificaciones
+actor Usuario as U
+boundary "TopNav + ShellComponent\n(panel lateral)" as P
+control "NotificationApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+P -> S : getNotifications()
+S -> API : GET /api/notifications
+API -> DB : SELECT notifications
+API --> S : 200 Notification[]
+U -> P : Abre panel NOTIFICACIONES
+P --> U : Lista (no leídas resaltadas)
+alt Marcar una
+  U -> P : Clic en notificación
+  P -> S : markAsRead(id)
+  S -> API : PATCH /api/notifications/{id}/read
+  API -> DB : UPDATE read = true
+  API --> S : 204
+else Marcar todas
+  U -> P : MARCAR TODAS COMO LEÍDAS
+  P -> S : markAllAsRead()
+  S -> API : PATCH /api/notifications/read-all
+  API -> DB : UPDATE notifications SET read = true
+  API --> S : 204
+end
+@enduml

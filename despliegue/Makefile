@@ -12,7 +12,7 @@ export
 
 .DEFAULT_GOAL := help
 .PHONY: help env build up down restart logs ps psql reset-db backup restore clean \
-        test dev-install dev-back dev-front dev-front-mock
+        test dev-install dev-back dev-front dev-front-mock docs docs-pdf
 
 help: ## Muestra esta ayuda
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | \
@@ -79,3 +79,10 @@ dev-front-mock: ## Front con datos mock, sin backend
 
 test: ## Corre los tests del backend
 	cd $(BACK_DIR) && .venv/bin/python -m pytest -q
+
+# ── Documentación ───────────────────────────────────────────
+docs: ## Regenera los diagramas SVG de docs/ (PlantUML en Docker)
+	../docs/diagramas/generar.sh
+
+docs-pdf: ## Compila la documentación a PDF en docs/pdf/ (Docker + python3 markdown/websockets + pdfunite)
+	python3 ../docs/exportar/generar_pdf.py

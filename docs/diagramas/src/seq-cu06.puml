@@ -1,0 +1,23 @@
+@startuml seq-cu06
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-06 Consultar lista de materiales (BOM)
+actor Usuario as U
+boundary "BomPage" as P
+control "BomApiService" as S
+participant "FastAPI\n(crud.project_collection)" as API
+database "BD" as DB
+U -> P : Abre hoja 02 LISTA DE MATERIALES
+P -> S : getMaterials(projectId)
+S -> API : GET /api/projects/{id}/bom
+API -> API : ensure_project(id)
+API -> DB : SELECT bom_materials WHERE project_id ORDER BY pk
+API --> S : 200 BomMaterial[]
+P --> U : Tabla: descripción, proveedor, tipo de cálculo\n(EXACTO / ESTIMADO), cantidad, precio, subtotal
+note over P : Filas ESTIMADO muestran la nota metrológica\n(criterio de aproximación, RE-005 / RE-006).
+opt Mantenimiento de la BOM (API)
+  U -> API : POST | PATCH | DELETE /api/projects/{id}/bom[/{itemId}]
+  API -> DB : INSERT / UPDATE / DELETE
+end
+@enduml

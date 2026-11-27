@@ -7,6 +7,7 @@
 | `src/` | Front Angular 21 |
 | [`backend/`](backend/README.md) | API FastAPI + SQLAlchemy (SQLite en local, PostgreSQL en Docker) |
 | [`despliegue/`](despliegue/README.md) | Docker Compose, Dockerfiles, Nginx y Makefile |
+| [`docs/`](docs/README.md) | Documentación: casos de uso, diagramas UML, manuales de instalación, usuario y funcionalidad |
 
 Arranque rápido con Docker: `cd despliegue && make up` → http://localhost:8080
 

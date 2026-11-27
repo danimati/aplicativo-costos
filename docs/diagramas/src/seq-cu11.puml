@@ -1,0 +1,27 @@
+@startuml seq-cu11
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-11 Seguir fabricación y ensamble
+actor "Planeación" as U
+boundary "FabricacionPage /\nEnsamblePage" as P
+control "ProductionApiService" as S
+participant "FastAPI" as API
+database "BD" as DB
+U -> P : Abre hoja 07 FABRICACIÓN
+P -> S : getFabricacion(projectId)
+S -> API : GET /api/projects/{id}/fabricacion
+API -> DB : SELECT production_activities
+API --> S : 200 ProductionActivity[]
+P --> U : Actividades, responsable, % avance, fecha objetivo
+U -> P : Abre hoja 08 ENSAMBLE
+P -> S : getEnsamble(projectId)
+S -> API : GET /api/projects/{id}/ensamble
+API -> DB : SELECT assembly_units
+API --> S : 200 AssemblyUnit[] (con dependsOn)
+P --> U : Conjuntos, dependencias y bloqueos
+opt Actualizar avance (API)
+  U -> API : PATCH /api/projects/{id}/fabricacion/{itemId} {progress, status}
+  API -> DB : UPDATE
+end
+@enduml

@@ -1,0 +1,27 @@
+@startuml seq-cu02
+!include _estilo.iuml
+autonumber
+hide footbox
+title CU-02 Consultar portafolio de proyectos
+actor Usuario as U
+boundary "ProjectHubComponent\n+ MonthCalendarComponent" as H
+control "ProjectApiService" as S
+participant "FastAPI\nrouters/api.py" as API
+database "BD" as DB
+U -> H : Abre /app/proyectos
+H -> S : getProjects()
+S -> API : GET /api/projects
+API -> DB : SELECT projects (+ project_stages)
+DB --> API : filas
+API --> S : 200 Project[] (camelCase)
+S --> H : Observable<Project[]>
+H -> S : getCalendarEvents()
+S -> API : GET /api/projects/calendar
+API -> DB : SELECT calendar_events
+API --> S : 200 CalendarEvent[]
+H --> U : Tarjetas de expedientes, avance,\nestado y calendario mensual
+alt Usuario selecciona un proyecto
+  U -> H : Clic en tarjeta o evento del calendario
+  H --> U : Navega a /app/proyectos/{id} (CU-03)
+end
+@enduml
